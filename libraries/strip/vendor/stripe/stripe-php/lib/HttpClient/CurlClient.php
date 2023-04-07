@@ -71,7 +71,6 @@ class CurlClient implements ClientInterface, StreamingClientInterface
         $this->defaultOptions = $defaultOptions;
         $this->randomGenerator = $randomGenerator ?: new Util\RandomGenerator();
         $this->initUserAgentInfo();
-
         $this->enableHttp2 = $this->canSafelyUseHttp2();
     }
 

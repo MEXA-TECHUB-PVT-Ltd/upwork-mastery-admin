@@ -9,7 +9,7 @@ if (isset($_POST["id"])) {
     # code...
 $id = $_POST["id"];
 $query = "SELECT * FROM videos WHERE id=$id";
-$result = mysqli_query($connection, $query);
+$result = pg_query($connection, $query);
 $row = mysqli_fetch_object ($result);
 
    

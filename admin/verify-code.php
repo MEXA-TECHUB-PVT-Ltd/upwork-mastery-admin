@@ -15,7 +15,7 @@ if (isset($_SESSION["admin_email"]) && isset($_SESSION["admin_id"])) {
     <div class="preloader"></div>
     <div class="main-wrap">
         <div class="row">
-            <div class="col-xl-5 d-none d-xl-block p-0 vh-100 bg-image-cover bg-no-repeat" style="background-image: url(images/login-bg-2.jpg);"></div>
+            <div class="col-xl-5 d-none d-xl-block p-0 vh-100 bg-image-cover bg-no-repeat" style="background-image: url(include/images/login-bg-2.jpg);"></div>
             <div class="col-xl-7 vh-lg-100 align-items-center d-flex bg-white rounded-lg overflow-hidden">
                 <div class="card shadow-none border-0 ml-auto mr-auto login-card">
                     <div class="card-body rounded-0 text-left">
@@ -26,7 +26,7 @@ if (isset($_SESSION["admin_email"]) && isset($_SESSION["admin_id"])) {
                                 <i class="font-sm ti-lock text-grey-500 pr-0"></i>
                             </div>
                             <div class="col-sm-12 p-0 text-left">
-                                <div class="form-group mb-1"><button type="submit" name="submit" class="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">Submit</button></div>
+                                <div class="form-group mb-1"><button type="submit" name="submit" class="form-control text-center style2-input mt-1 text-white fw-600 bg-dark border-0 p-0 ">Submit</button></div>
                             </div>
                         </form>
                     </div>

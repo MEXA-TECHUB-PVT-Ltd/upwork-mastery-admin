@@ -56,9 +56,9 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 include_once("../include/db.php");
 $conn=connect();
 $sql = "SELECT * FROM promo_codes WHERE status = '' OR status = 'active'";
-$run = mysqli_query($conn,$sql);
+$run = pg_query($conn,$sql);
 $count = 1;
-while($result = mysqli_fetch_assoc($run)){
+while($result = pg_fetch_assoc($run)){
     $id = $result["id"];
     $code = $result["code"];
     $expire_date = $result["expire_date"];
@@ -107,14 +107,7 @@ while($result = mysqli_fetch_assoc($run)){
 
     
         </div>
-        <!-- main content -->
-        <div class="app-footer border-0 shadow-lg">
-            <a href="index.php" class="nav-content-bttn nav-center"><i class="feather-home"></i></a>
-            <a href="default-follower.html" class="nav-content-bttn"><i class="feather-package"></i></a>
-            <a href="default-live-stream.html" class="nav-content-bttn" data-tab="chats"><i class="feather-layout"></i></a>            
-            <a href="#" class="nav-content-bttn sidebar-layer"><i class="feather-layers"></i></a>
-            <a href="setting.php" class="nav-content-bttn"><img src="../assets/images/female-profile.png" alt="user" class="w30 shadow-xss"></a>
-        </div>
+        <?php include("../include/footer.php")?>
 
         <div class="app-header-search">
             <form class="search-form">

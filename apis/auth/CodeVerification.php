@@ -19,7 +19,7 @@ if (!empty($data2->email) && !empty($data2->otp)) {
     $data->email = $data2->email;
     $data->otp = $data2->otp;
     if (!empty($row = searchByEmail($data))) {
-        $otp=$row["OTP"];
+        $otp=$row["otp"];
         if ($data->otp == $otp) {
            resetOTP($data);
             http_response_code(200);

@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 // Auth Api Function
 function CreateUser($data){
     $query = "INSERT INTO users (email,password) VALUES ('$data->email','$data->password')";
-    $insert = mysqli_query($data->conn, $query);
+    $insert = pg_query($data->conn, $query);
         if($insert){
             return true;
         }
@@ -12,17 +12,40 @@ function CreateUser($data){
 }
 function searchByEmail($data){
     $query = "SELECT * FROM users WHERE email='$data->email'";
-    $result = mysqli_query($data->conn, $query);
+    $result = pg_query($data->conn, $query);
     if ($result) {
-        return mysqli_fetch_assoc($result);
+        return pg_fetch_assoc($result);
     }
     return array();
     }
 function searchById($data){
     $query = "SELECT * FROM users WHERE id='$data->id'";
-    $result = mysqli_query($data->conn, $query);
+    $result = pg_query($data->conn, $query);
     if ($result) {
-        return mysqli_fetch_assoc($result);
+        return pg_fetch_assoc($result);
+    }
+    return array();
+    }
+function GetUserStatus($data){
+    $query4 = "SELECT * FROM users WHERE id='$data->id'";
+    $result4 = pg_query($data->conn, $query4);
+    if ($result4) {
+        $row5 = pg_fetch_assoc($result4);
+        $status = $row5["status"];
+        if ($status == null || $status == 'active') {
+            $return = "Active";
+            return array(
+                "status" => true,
+                "user" => $return
+            );
+        }else {
+            $return = "Inactive";
+            return array(
+                "status" => true,
+                "user" => $return
+            );
+        }
+        
     }
     return array();
     }
@@ -30,7 +53,7 @@ function searchById($data){
         $query = "UPDATE users SET
         password = '$data->password'
         WHERE email = '$data->email'";
-        $upload = mysqli_query($data->conn, $query);
+        $upload = pg_query($data->conn, $query);
         if($upload){
             return true;
         }
@@ -40,7 +63,7 @@ function searchById($data){
         $query = "UPDATE users SET
         OTP = '$data->code'
         WHERE email = '$data->email'";
-        $upload = mysqli_query($data->conn, $query);
+        $upload = pg_query($data->conn, $query);
         if($upload){
             return true;
         }
@@ -48,9 +71,9 @@ function searchById($data){
         }
     function resetOTP($data){
         $query = "UPDATE users SET
-        OTP = ''
+        otp = null
         WHERE email = '$data->email'";
-        $upload = mysqli_query($data->conn, $query);
+        $upload = pg_query($data->conn, $query);
         if($upload){
             return true;
         }
@@ -63,7 +86,7 @@ function searchById($data){
         city = '$data->city',
         country = '$data->country'
         WHERE id = '$data->id'";
-        $upload = mysqli_query($data->conn, $query);
+        $upload = pg_query($data->conn, $query);
         if($upload){
             return true;
         }
@@ -92,10 +115,10 @@ function searchById($data){
         // Promo Code
 function GetPromoCode($data){
     $query = "SELECT * FROM promo_codes";
-    $result = mysqli_query($data->conn, $query);
+    $result = pg_query($data->conn, $query);
     if ($result) {
         $row = array();
-        while($data = mysqli_fetch_assoc($result)){
+        while($data = pg_fetch_assoc($result)){
             $row[] = [
                 'status'=>true,
                 'data'=>[
@@ -114,9 +137,9 @@ function GetPromoCode($data){
     }
 function GetTermsAndCondition($data){
 $query = "SELECT terms_and_condition FROM admin";
-$result = mysqli_query($data->conn, $query);
+$result = pg_query($data->conn, $query);
 if ($result) {
-    $data = mysqli_fetch_assoc($result);
+    $data = pg_fetch_assoc($result);
         $row = [
             'status'=>true,
             'TermsAndCondition'=>$data["terms_and_condition"]
@@ -126,9 +149,9 @@ if ($result) {
 }
 function GetPrivacyPolicy($data){
 $query = "SELECT privacy_policy FROM admin";
-$result = mysqli_query($data->conn, $query);
+$result = pg_query($data->conn, $query);
 if ($result) {
-    $data = mysqli_fetch_assoc($result);
+    $data = pg_fetch_assoc($result);
         $row = [
             'status'=>true,
             'privacy_policy'=>$data["privacy_policy"]
@@ -138,10 +161,10 @@ if ($result) {
 }
 function GetVideos($data){
     $query = "SELECT * FROM videos";
-    $result = mysqli_query($data->conn, $query);
+    $result = pg_query($data->conn, $query);
     if ($result) {
         $row = array();
-        while($data = mysqli_fetch_assoc($result)){
+        while($data = pg_fetch_assoc($result)){
             $row[] = [
                 'status'=>true,
                 'data'=>[
@@ -160,9 +183,9 @@ function GetVideos($data){
     }
 function GetVideoById($data){
     $query = "SELECT * FROM videos WHERE id =$data->id";
-    $result = mysqli_query($data->conn, $query);
+    $result = pg_query($data->conn, $query);
     if ($result) {
-        $data = mysqli_fetch_assoc($result);
+        $data = pg_fetch_assoc($result);
         $row = [
             'status'=>true,
             'data'=>[
@@ -178,7 +201,7 @@ function GetVideoById($data){
     }
 function payament($data){
 $query = "INSERT INTO payment (user_id,amount,token) VALUES ('$data->user_id','$data->amount','$data->token')";
-$insert = mysqli_query($data->conn, $query);
+$insert = pg_query($data->conn, $query);
 if($insert){
     return true;
 }
@@ -186,12 +209,12 @@ if($insert){
 }
 function createSUbscription($data){
 $query = "INSERT INTO subscriptions (user_id,customer_id,client_secret,secret,amount,currency) VALUES ('$data->user_id','$data->customer_id','$data->client_secret','$data->secret','$data->amount','$data->currency')";
-$insert = mysqli_query($data->conn, $query);
+$insert = pg_query($data->conn, $query);
 if($insert){
     $query2 = "UPDATE users SET
     subscription = 'subscribed'
     WHERE id = '$data->user_id'";
-    $upload2 = mysqli_query($data->conn, $query2);
+    $upload2 = pg_query($data->conn, $query2);
     if($upload2){
         return true;
     }

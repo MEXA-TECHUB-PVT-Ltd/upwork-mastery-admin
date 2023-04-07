@@ -92,6 +92,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
                     </div>
                 </div>
         </div>
+        <?php include("../include/footer.php")?>
     </div> 
 
     <?php include("../include/scripts.php")?>

@@ -13,18 +13,18 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(!empty($row = searchByEmail($data))){
             $code = $_SESSION["code"];
         if ($code == $data->code) {
-            header("location:../reset-password.php");
+            header("location:../../reset-password.php");
         }else{
             $_SESSION["error_message"] = "Your code is incorrect";
-            header("location:../verify-code.php");
+            header("location:../../verify-code.php");
         }
     }else{
             $_SESSION["error_message"] = "Email is not register";
-            header("location:../verify-code.php");
+            header("location:../../verify-code.php");
     }
     }else{
         $_SESSION["error_message"] = "Please enter code";
-        header("location:../verify-code.php");
+        header("location:../../verify-code.php");
     }
 
 }

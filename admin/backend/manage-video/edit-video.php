@@ -15,7 +15,7 @@ $data->conn=connect();
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if (isset($_POST["id"]) && isset($_POST["title"]) && isset($_POST["description"]) && isset($_POST["link"])) {
-    $data->link=mysqli_real_escape_string($data->conn,$_POST["link"]);
+    $data->link=pg_real_escape_string($data->conn,$_POST["link"]);
     $data->id=$_POST["id"];
     $data->title=$_POST["title"];
     $data->description=$_POST["description"];

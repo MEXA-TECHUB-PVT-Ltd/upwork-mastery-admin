@@ -6,8 +6,8 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 include_once("../include/db.php");
 $conn=connect();
 $sql = "SELECT * FROM admin";
-$run = mysqli_query($conn,$sql);
-$result = mysqli_fetch_assoc($run);
+$run = pg_query($conn,$sql);
+$result = pg_fetch_assoc($run);
 $terms_and_condition = $result["privacy_policy"]
 ?>
 <!-- HTML -->
@@ -65,27 +65,7 @@ $terms_and_condition = $result["privacy_policy"]
                     </div>
                 </div>
             </div>
-        <!-- main content -->
-        <div class="app-footer border-0 shadow-lg">
-            <a href="index.php" class="nav-content-bttn nav-center"><i class="feather-home"></i></a>
-            <a href="default-follower.html" class="nav-content-bttn"><i class="feather-package"></i></a>
-            <a href="default-live-stream.html" class="nav-content-bttn" data-tab="chats"><i class="feather-layout"></i></a>            
-            <a href="#" class="nav-content-bttn sidebar-layer"><i class="feather-layers"></i></a>
-            <a href="setting.php" class="nav-content-bttn"><img src="images/female-profile.png" alt="user" class="w30 shadow-xss"></a>
-        </div>
-        <div class="app-header-search">
-            <form class="search-form">
-                <div class="form-group searchbox mb-0 border-0 p-1">
-                    <input type="text" class="form-control border-0" placeholder="Search...">
-                    <i class="input-icon">
-                        <ion-icon name="search-outline" role="img" class="md hydrated" aria-label="search outline"></ion-icon>
-                    </i>
-                    <a href="#" class="ml-1 mt-1 d-inline-block close searchbox-close">
-                        <i class="ti-close font-xs"></i>
-                    </a>
-                </div>
-            </form>
-        </div>
+            <?php include("../include/footer.php")?>
     </div> 
 <?php include("../include/scripts.php")?>
 

@@ -1,12 +1,5 @@
 <?php
 session_start();
-// debuger
-ini_set("display_errors",1);
-// Headers
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
-header("Content-type:application/json; charst= UTF-8");
-
 // file include
 include_once("../../../include/db.php");
 include_once("../../function/Admin.php");
@@ -15,9 +8,10 @@ $data->conn=connect();
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if (isset($_POST["title"]) && isset($_POST["description"]) && isset($_POST["link"])) {
-    $data->link=mysqli_real_escape_string($data->conn,$_POST["link"]);
-    $data->title=$_POST["title"];
+    if (!empty($_POST["title"]) && !empty($_POST["description"]) && !empty($_POST["link"])) {
+    $data->link=$_POST["link"];
     $data->description=$_POST["description"];
+    $data->title=$_POST["title"];
         if (createVideo($data)) {
             $_SESSION["message"] = "Video Created Successfully";
             header("location:../../manage-video.php");
@@ -25,6 +19,10 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             $_SESSION["message"] = "failed to create video";
             header("location:../../manage-video.php");
         }
+    }else {
+        $_SESSION["message_error"] = "All Data Needed";
+            header("location:../../manage-video.php");
+    }
     }else{
         $_SESSION["message_error"] = "All data needed";
         header("location:../../manage-video.php");
