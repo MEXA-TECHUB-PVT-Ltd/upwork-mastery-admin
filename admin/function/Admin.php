@@ -3,9 +3,9 @@ require_once "../../Library/vendor/autoload.php";
 use PHPMailer\PHPMailer\PHPMailer;
 function searchByEmail($data){
 $query = "SELECT * FROM admin WHERE email='$data->email'";
-$result = mysqli_query($data->conn, $query);
+$result = pg_query($data->conn, $query);
 if ($result) {
-    return mysqli_fetch_assoc($result);
+    return pg_fetch_assoc($result);
 }
 return array();
 }
@@ -13,7 +13,7 @@ function resetPassword($data){
 $query = "UPDATE admin SET
 password = '$data->password'
 WHERE email = '$data->email'";
-$upload = mysqli_query($data->conn, $query);
+$upload = pg_query($data->conn, $query);
 if($upload){
     return true;
 }
@@ -23,7 +23,7 @@ function updateTermsAndCondition($data){
 $query = "UPDATE admin SET
 terms_and_condition = '$data->terms_and_condition'
 WHERE email = '$data->email'";
-$upload = mysqli_query($data->conn, $query);
+$upload = pg_query($data->conn, $query);
 if($upload){
     return true;
 }
@@ -33,7 +33,7 @@ function updatePrivacyPolicy($data){
 $query = "UPDATE admin SET
 privacy_policy = '$data->terms_and_condition'
 WHERE email = '$data->email'";
-$upload = mysqli_query($data->conn, $query);
+$upload = pg_query($data->conn, $query);
 if($upload){
     return true;
 }
@@ -41,7 +41,7 @@ if($upload){
 }
 function createVideo($data){
     $query = "INSERT INTO videos (description,title,link) VALUES ('$data->description','$data->title','$data->link')";
-    $insert = mysqli_query($data->conn, $query);
+    $insert = pg_query($data->conn, $query);
         if($insert){
             return true;
         }
@@ -54,7 +54,7 @@ function UpdateVideo($data){
     title = '$data->title',
     link = '$data->link'
     WHERE id = '$data->id'";
-    $upload = mysqli_query($data->conn, $query);
+    $upload = pg_query($data->conn, $query);
     if($upload){
         return true;
     }
@@ -62,7 +62,7 @@ function UpdateVideo($data){
 }
 function deleteVideo($data){
     $query = "DELETE FROM videos WHERE id =" . $data->id;
-    $upload = mysqli_query($data->conn, $query);
+    $upload = pg_query($data->conn, $query);
     if($upload){
         return true;
     }
@@ -71,7 +71,7 @@ function deleteVideo($data){
 // Manage User
 function createUser($data){
     $query = "INSERT INTO users (email,password,city,country,referral_code) VALUES ('$data->email','$data->password','$data->city','$data->country','$data->referral_code')";
-    $insert = mysqli_query($data->conn, $query);
+    $insert = pg_query($data->conn, $query);
         if($insert){
             return true;
         }
@@ -84,7 +84,7 @@ function UpdateUser($data){
     city = '$data->city',
     country = '$data->country'
     WHERE id = '$data->id'";
-    $upload = mysqli_query($data->conn, $query);
+    $upload = pg_query($data->conn, $query);
     if($upload){
         return true;
     }
@@ -92,7 +92,7 @@ function UpdateUser($data){
 }
 function deleteUser($data){
     $query = "DELETE FROM users WHERE id =" . $data->id;
-    $upload = mysqli_query($data->conn, $query);
+    $upload = pg_query($data->conn, $query);
     if($upload){
         return true;
     }
@@ -102,7 +102,7 @@ function blockUser($data){
     $query = "UPDATE users SET
     status = 'block'
     WHERE id = '$data->id'";
-    $upload = mysqli_query($data->conn, $query);
+    $upload = pg_query($data->conn, $query);
     if($upload){
         return true;
     }
@@ -112,7 +112,7 @@ function activeUser($data){
     $query = "UPDATE users SET
     status = 'active'
     WHERE id = '$data->id'";
-    $upload = mysqli_query($data->conn, $query);
+    $upload = pg_query($data->conn, $query);
     if($upload){
         return true;
     }
@@ -120,8 +120,8 @@ function activeUser($data){
 }
 // promo code
 function createPromo($data){
-    $query = "INSERT INTO promo_codes (code,expire_date,discount) VALUES ('$data->code','$data->date','$data->discount')";
-    $insert = mysqli_query($data->conn, $query);
+    $query = "INSERT INTO promo_codes (code,expire_date,discount,status) VALUES ('$data->code','$data->date','$data->discount','active')";
+    $insert = pg_query($data->conn, $query);
         if($insert){
             return true;
         }
@@ -133,7 +133,7 @@ function EditPromo($data){
     expire_date = '$data->date',
     discount = '$data->discount'
     WHERE id = '$data->id'";
-    $upload = mysqli_query($data->conn, $query);
+    $upload = pg_query($data->conn, $query);
     if($upload){
         return true;
     }
@@ -163,7 +163,7 @@ function blockPromo($data){
     $query = "UPDATE promo_codes SET
     status = 'block'
     WHERE id = '$data->id'";
-    $upload = mysqli_query($data->conn, $query);
+    $upload = pg_query($data->conn, $query);
     if($upload){
         return true;
     }

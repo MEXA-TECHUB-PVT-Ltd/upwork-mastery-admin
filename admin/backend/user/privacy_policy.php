@@ -15,7 +15,7 @@ $data->conn=connect();
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if (isset($_POST["terms_and_condition"])) {
-    $data->terms_and_condition=mysqli_real_escape_string($data->conn,$_POST["terms_and_condition"]);
+    $data->terms_and_condition=pg_escape_string($data->conn,$_POST["terms_and_condition"]);
     $data->email = $_SESSION["admin_email"];
         if (updatePrivacyPolicy($data)) {
         $_SESSION["message"] = "Privacy Policy Updated Successfully";

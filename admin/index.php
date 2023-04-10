@@ -27,7 +27,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
                     <div class="nav-caption fw-600 font-xssss text-grey-500"><span>HOME</span></div>
                     <ul class="mb-3">
                         <li class="logo d-none d-xl-block d-lg-block"></li>
-                        <li><a href="index.php" class="active nav-content-bttn open-font" data-tab="chats"><i class="feather-tv mr-3"></i><span>Dashboard</span></a></li>
+                        <li><a href="index.php" class="active nav-content-bttn open-font" data-tab="chats"><i class="feather-home mr-3"></i><span>Dashboard</span></a></li>
                         <li class="flex-lg-brackets"><a href="manage-video.php" data-tab="archived" class="nav-content-bttn open-font"><i class="feather-video mr-3"></i><span>Video Of Courses</span></a></li>                        
                         <li><a href="manage-users.php" class="nav-content-bttn open-font" data-tab="favorites"><i class="feather-users mr-3"></i><span>Users</span></a></li>
                         <li><a href="manage-promo-code.php" class="nav-content-bttn open-font" data-tab="favorites"><i class="feather-gift mr-3"></i><span>Promo Code</span></a></li>
@@ -47,16 +47,16 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 include_once("../include/db.php");
 $conn=connect();
 $sql = "SELECT * FROM users";
-$run = mysqli_query($conn,$sql);
-$users = mysqli_num_rows($run);
+$run = pg_query($conn,$sql);
+$users = pg_num_rows($run);
 // total Subscription
 $sql2 = "SELECT * FROM subscriptions";
-$run2 = mysqli_query($conn,$sql2);
-$subscriptions = mysqli_num_rows($run2);
+$run2 = pg_query($conn,$sql2);
+$subscriptions = pg_num_rows($run2);
 // total video
 $sql3 = "SELECT * FROM videos";
-$run3 = mysqli_query($conn,$sql3);
-$video = mysqli_num_rows($run3);
+$run3 = pg_query($conn,$sql3);
+$video = pg_num_rows($run3);
 
     ?>
                         <div class="col-lg-4 pt-4 mb-3">
@@ -88,15 +88,15 @@ $video = mysqli_num_rows($run3);
                         </div>
                     </div>
                         <div class="col-lg-12 pt-0 mb-3">
-                        <h2 class="fw-400 font-lg d-block"><b> Video</b></h2>
+                        <h2 class="fw-400 font-lg d-block">Course <b>Videos</b></h2>
                     </div>
                     <div class="row">
 
                         
 <?php
 $sql4 = "SELECT * FROM videos";
-$run4 = mysqli_query($conn,$sql4);
-while($result4 = mysqli_fetch_assoc($run4)){
+$run4 = pg_query($conn,$sql4);
+while($result4 = pg_fetch_assoc($run4)){
     $id = $result4["id"];
     $title = $result4["title"];
     $link = $result4["link"];
@@ -117,19 +117,11 @@ parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
 <?php
 }
 ?>
-                        </div>
+                    </div>
                 </div>
             </div>            
         </div>
-        <!-- main content -->
-        <div class="app-footer border-0 shadow-lg">
-            <a href="index.php" class="nav-content-bttn nav-center"><i class="feather-home"></i></a>
-            <a href="manage-video.php" class="nav-content-bttn"><i class="feather-package"></i></a>
-            <a href="manage-user.php" class="nav-content-bttn" data-tab="chats"><i class="feather-layout"></i></a>            
-            <a href="manage-promo-code.php" class="nav-content-bttn sidebar-layer"><i class="feather-layers"></i></a>
-            <a href="setting.php" class="nav-content-bttn"><img src="include/images/female-profile.png" alt="user" class="w30 shadow-xss"></a>
-        </div>
-
+        <?php include("../include/footer.php")?>
     </div> 
     <?php include("../include/scripts.php")?>
 </body>

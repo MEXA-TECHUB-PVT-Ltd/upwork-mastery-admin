@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
         $data->password = password_hash($password, PASSWORD_DEFAULT);
                 if (empty($row = searchByEmail($data))) {
                     if (CreateUser($data)) {
-                        $last_id = mysqli_insert_id($data->conn);
+                        $last_id = pg_insert_id($data->conn);
                         $data2 = array(
                             "id" => "$last_id",
                             "email" => $data->email,

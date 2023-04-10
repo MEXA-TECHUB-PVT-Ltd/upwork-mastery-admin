@@ -16,7 +16,7 @@ if (isset($_SESSION["admin_email"]) && isset($_SESSION["admin_id"])) {
     <div class="preloader"></div>
     <div class="main-wrap">
         <div class="row">
-            <div class="col-xl-5 d-none d-xl-block p-0 vh-100 bg-image-cover bg-no-repeat" style="background-image: url(images/login-bg-2.jpg);"></div>
+            <div class="col-xl-5 d-none d-xl-block p-0 vh-100 bg-image-cover bg-no-repeat" style="background-image: url(include/images/login-bg-2.jpg);"></div>
             <div class="col-xl-7 vh-lg-100 align-items-center d-flex bg-white rounded-lg overflow-hidden">
                 <div class="card shadow-none border-0 ml-auto mr-auto login-card">
                     <div class="card-body rounded-0 text-left">

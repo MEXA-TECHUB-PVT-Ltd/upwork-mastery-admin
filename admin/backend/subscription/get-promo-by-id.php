@@ -9,8 +9,8 @@ if (isset($_POST["id"])) {
     # code...
 $id = $_POST["id"];
 $query = "SELECT * FROM promo_codes WHERE id=$id";
-$result = mysqli_query($connection, $query);
-$row = mysqli_fetch_object ($result);
+$result = pg_query($connection, $query);
+$row = pg_fetch_object ($result);
 
    
 // Important to echo the record in JSON format

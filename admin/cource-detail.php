@@ -3,8 +3,8 @@ include_once("../include/db.php");
 $conn=connect();
 $id = $_GET["id"];
 $sql = "SELECT * FROM videos WHERE id =$id";
-$run = mysqli_query($conn,$sql);
-$result = mysqli_fetch_assoc($run);
+$run = pg_query($conn,$sql);
+$result = pg_fetch_assoc($run);
     $id = $result["id"];
     $title = $result["title"];
     $link = $result["link"];
@@ -74,14 +74,7 @@ $videoid = $my_array_of_vars['v'];
                 </div>
             </div>            
         </div>
-        <!-- main content -->
-        <div class="app-footer border-0 shadow-lg">
-            <a href="index.php" class="nav-content-bttn nav-center"><i class="feather-home"></i></a>
-            <a href="component.html" class="nav-content-bttn"><i class="feather-package"></i></a>
-            <a href="pages.html" class="nav-content-bttn" data-tab="chats"><i class="feather-layout"></i></a>            
-            <a href="#" class="nav-content-bttn right-menu"><i class="feather-layers"></i></a>
-            <a href="#" data-toggle="modal" data-target="#mySetting" class="nav-content-bttn"><img src="images/female-profile.png" alt="user" class="w40"></a>
-        </div>
+        <?php include("../include/footer.php")?>
     </div> 
    
     <?php include("../include/scripts.php")?>

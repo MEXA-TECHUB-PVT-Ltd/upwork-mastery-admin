@@ -10,23 +10,14 @@ if (isset($_SESSION["admin_email"]) && isset($_SESSION["admin_id"])) {
 <!-- Mirrored from uitheme.net/elomoas/forgot.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 29 Mar 2023 08:22:51 GMT -->
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Upwork Mastery</title>
-    <link rel="stylesheet" href="include/css/themify-icons.css">
-    <link rel="stylesheet" href="include/css/feather.css">
-    <link rel="stylesheet" href="include/vendor/jquery-toast-plugin/dist/jquery.toast.min.css">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
-    <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="include/css/style.css"> 
-
+<?php include("../include/links.php")?>
 </head>
 
 <body class="color-theme-green">
     <div class="preloader"></div>
     <div class="main-wrap">
         <div class="row">
-            <div class="col-xl-5 d-none d-xl-block p-0 vh-100 bg-image-cover bg-no-repeat" style="background-image: url(images/login-bg-2.jpg);"></div>
+            <div class="col-xl-5 d-none d-xl-block p-0 vh-100 bg-image-cover bg-no-repeat" style="background-image: url(include/images/login-bg-2.jpg);"></div>
             <div class="col-xl-7 vh-lg-100 align-items-center d-flex bg-white rounded-lg overflow-hidden">
                 <div class="card shadow-none border-0 ml-auto mr-auto login-card">
                     <div class="card-body rounded-0 text-left">
