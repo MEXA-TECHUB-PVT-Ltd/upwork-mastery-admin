@@ -21,9 +21,9 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     if ($row = createRecommendation($data)) {
         http_response_code(200);
         echo json_encode(array(
-			"description"=>$data->description,
             "status"=>true,
-            "message"=>"Recommendation Created Successfully"
+            "message"=>"Recommendation Created Successfully",
+			"data"=>$row
         ));
     }else{
             http_response_code(200);

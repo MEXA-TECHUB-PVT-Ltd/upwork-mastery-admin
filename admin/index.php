@@ -110,7 +110,7 @@ parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
                                         <a href="cource-detail.php?id=<?php echo $id?>" class="video-bttn position-relative d-block"><img src="https://img.youtube.com/vi/<?php echo $my_array_of_vars['v']?>/0.jpg" alt="image" class="w-100"></a>
                                     </div>
                                     <div class="card-body pt-0">
-                                        <h4 class="fw-700 font-xss mt-3 lh-28 mt-0"><a href="#" class="float-right" data-toggle="modal" data-target="#Modaledit" onclick='loadEdit("<?php echo $id?>")'><i class="feather-edit text-grey-500 font-xs"></i></a><a href="#" class="float-right mr-2" onclick="confirmation(<?php echo $id?>)"><i class="feather-trash text-danger-500 font-xs"></i></a><a href="cource-detail.php?id=<?php echo $id?>" class="text-dark text-grey-900"><?php echo $title?></a></h4>
+                                        <h4 class="fw-700 font-xss mt-3 lh-28 mt-0"><a href="cource-detail.php?id=<?php echo $id?>" class="text-dark text-grey-900"><?php echo $title?></a></h4>
                                     </div>
                                 </div>
                             </div>

@@ -132,7 +132,7 @@ function GetPromoCode($data){
     return array();
     }
 function GetTermsAndCondition($data){
-$query = "SELECT terms_and_condition FROM admin";
+$query = "SELECT * FROM terms_conditions";
 $result = pg_query($data->conn, $query);
 if ($result) {
     $data = pg_fetch_assoc($result);
@@ -144,16 +144,15 @@ if ($result) {
     return $row;;
 }
 function GetPrivacyPolicy($data){
-$query = "SELECT privacy_policy FROM admin";
+$query = "SELECT * FROM privacy_policy";
 $result = pg_query($data->conn, $query);
 if ($result) {
-    $data = pg_fetch_assoc($result);
-        $row = [
-            'status'=>true,
-            'privacy_policy'=>$data["privacy_policy"]
-        ];
+    $row = array();
+    while($data = pg_fetch_assoc($result)){
+        $row[] = $data;
     }
-    return $row;;
+    return $row;
+    }
 }
 // cources
 function createVideo($data){
@@ -305,12 +304,69 @@ return false;
 }
 // recommendation
 function createRecommendation($data){
-    $query = "INSERT INTO recommendation (description) VALUES ('$data->description')";
+    $query = "INSERT INTO recommendation (description) VALUES ('$data->description') RETURNING id";
     $insert = pg_query($data->conn, $query);
-    if($insert){
+        if($insert){
+            $row = pg_fetch_row($insert);
+            $last_id = $row[0];
+            return array(
+                "id"=>$last_id,
+                "description"=>$data->description
+            );
+        }
+        return array();
+}
+function updateRecommendation($data){
+    $query2 = "UPDATE recommendation SET
+    description = '$data->description'
+    WHERE id = '$data->id'";
+    $upload2 = pg_query($data->conn, $query2);
+    if($upload2){
         return true;
     }
-    return false;
     }
-
+    function DeleteRecomendation($data){
+        $query = "DELETE FROM recommendation WHERE id =" . $data->id;
+        $upload = pg_query($data->conn, $query);
+        if($upload){
+            return true;
+        }
+        return false;
+    }
+    function GetRecommendationById($data){
+        $query = "SELECT * FROM recommendation WHERE id = $data->id";
+        $result = pg_query($data->conn, $query);
+        if ($result) {
+            $data = pg_fetch_assoc($result);
+                $row = [
+                    'status'=>true,
+                    'data'=>$data
+                ];
+            }
+            return $row;;
+        }
+    function GetAllRecomendation($data){
+        $query = "SELECT * FROM recommendation";
+        $result = pg_query($data->conn, $query);
+        if ($result) {
+            $row=array();
+            while($data = pg_fetch_assoc($result)){
+                $row[] =$data;
+            }
+            return $row;
+            }
+        }
+    function GetLicence($data){
+        $query = "SELECT * FROM licence";
+        $result = pg_query($data->conn, $query);
+        if ($result) {
+            $data = pg_fetch_assoc($result);
+                $row = [
+                    'status'=>true,
+                    'licence'=>$data
+                ];
+            }
+            return $row;;
+        }
+ 
 ?>

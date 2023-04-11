@@ -13,9 +13,7 @@ include_once("../function/Function.php");
 $data = new stdClass();
 $data->conn=connect();
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
-    if (isset($_GET["id"])) {
-        $data->id=$_GET["id"];
-    if (!empty($row = GetVideoById($data))) {
+    if (!empty($row = GetLicence($data))) {
         http_response_code(200);
         echo json_encode($row);
     }else{
@@ -23,13 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         echo json_encode(array(
             "status"=>false,
             "message"=>"Failed To Get Data"
-        ));
-     }
-     }else {
-        http_response_code(200);
-        echo json_encode(array(
-            "status"=>false,
-            "message"=>"All Data Needed"
         ));
      }
 }else{

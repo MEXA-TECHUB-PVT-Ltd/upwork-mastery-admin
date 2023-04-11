@@ -4,7 +4,7 @@ session_start();
 ini_set("display_errors",1);
 // Headers
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Methods: PUT");
 header("Content-type:application/json; charst= UTF-8");
 
 // file include
@@ -13,23 +13,24 @@ include_once("../function/Function.php");
 $data = new stdClass();
 $data->conn=connect();
 
-if($_SERVER['REQUEST_METHOD'] === "POST"){
+if($_SERVER['REQUEST_METHOD'] === "PUT"){
 
     $data2 =json_decode(file_get_contents("php://input"));
-    if(!empty($data2->description)){
+    if(!empty($data2->id) && !empty($data2->description)){
+    $data->id=$data2->id;
     $data->description=$data2->description;
     if ($row = UpdateRecommendation($data)) {
         http_response_code(200);
         echo json_encode(array(
-			"description"=>$data->description,
             "status"=>true,
-            "message"=>"Recommendation Created Successfully"
+            "message"=>"Recommendation updated Successfully",
+			"description"=>$data->description,
         ));
     }else{
             http_response_code(200);
         echo json_encode(array(
             "status"=>false,
-            "message"=>"Failed To Create Recommendation"
+            "message"=>"Failed To update Recommendation"
         ));
     }
    
