@@ -13,11 +13,13 @@ include_once("../function/Function.php");
 $data = new stdClass();
 $data->conn=connect();
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
-    if (!empty($row = GetPromoCode($data))) {
+    if (!empty($_GET["search"])) {
+    $data->search=$_GET["search"];
+    if (!empty($row = searchVideo($data))) {
         http_response_code(200);
         echo json_encode(array(
             'status'=>true,
-            'data'=>$row
+            'videos'=>$row
         ));
     }else{
         http_response_code(200);
@@ -25,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             "status"=>false,
             "message"=>"Failed To Get Data"
         ));
+     }
      }
 }else{
     http_response_code(503);

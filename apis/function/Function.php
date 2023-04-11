@@ -114,21 +114,17 @@ function GetUserStatus($data){
        }
         // Promo Code
 function GetPromoCode($data){
-    $query = "SELECT * FROM promo_codes";
+    $query = "SELECT * FROM promo_codes WHERE status = 'active'";
     $result = pg_query($data->conn, $query);
     if ($result) {
         $row = array();
         while($data = pg_fetch_assoc($result)){
             $row[] = [
-                'status'=>true,
-                'data'=>[
                     'id'=>$data["id"],
                     'promo_code'=>$data["code"],
                     'expire_date'=>$data["expire_date"],
                     'discount'=>$data["discount"],
                     'created_at'=>$data["created_at"],
-                ]
-                
             ];
         }
         return $row;;
@@ -159,6 +155,35 @@ if ($result) {
     }
     return $row;;
 }
+// cources
+function createVideo($data){
+    $query = "INSERT INTO videos (description,title,link) VALUES ('$data->description','$data->title','$data->link') RETURNING id";
+    $insert = pg_query($data->conn, $query);
+        if($insert){
+            $row = pg_fetch_row($insert);
+            $last_id = $row[0];
+            return array(
+                "id"=>$last_id,
+                "title"=>$data->title,
+                "link"=>$data->link,
+                "description"=>$data->description
+            );
+        }
+        return array();
+}
+function UpdateVideo($data){
+    $query = "UPDATE videos SET
+    description = '$data->description',
+    title = '$data->title',
+    link = '$data->link'
+    WHERE id = '$data->id'";
+    $upload = pg_query($data->conn, $query);
+    if($upload){
+        return true;
+    }
+        return false;
+}
+
 function GetVideos($data){
     $query = "SELECT * FROM videos";
     $result = pg_query($data->conn, $query);
@@ -199,6 +224,55 @@ function GetVideoById($data){
         }
         return $row;;
     }
+    function searchVideo($data){
+        $query = "SELECT * FROM videos WHERE description LIKE '%" .$data->search. "%' OR title LIKE '" .$data->search. "%' ";
+        $result = pg_query($data->conn, $query);
+        if ($result) {
+            $row = array();
+            while($data = pg_fetch_assoc($result)){
+                $row[] = [
+                        'id'=>$data["id"],
+                        'title'=>$data["title"],
+                        'link'=>$data["link"],
+                        'description'=>$data["description"],
+                        'created_at'=>$data["created_at"],
+                ];
+            }
+            return $row;;
+            }
+            return array();
+        }
+    function deleteVideo($data){
+        $query = "DELETE FROM videos WHERE id =" . $data->id;
+        $upload = pg_query($data->conn, $query);
+        if($upload){
+            return true;
+        }
+        return false;
+    }
+    function SaveVideo($data){
+        $query = "INSERT INTO saved_videos (user_id,video_id) VALUES ('$data->user_id','$data->video_id') RETURNING id";
+        $insert = pg_query($data->conn, $query);
+            if($insert){
+                $row = pg_fetch_row($insert);
+                $last_id = $row[0];
+                return array(
+                    "id"=>$last_id,
+                    "user_id"=>$data->user_id,
+                    "video_id"=>$data->video_id,
+                );
+            }
+            return array();
+    }
+    function UnsaveVideo($data){
+        $query = "DELETE FROM saved_videos WHERE user_id =" . $data->user_id . " AND video_id = ".$data->video_id;
+        $upload = pg_query($data->conn, $query);
+        if($upload){
+            return true;
+        }
+        return false;
+    }
+    // payments
 function payament($data){
 $query = "INSERT INTO payment (user_id,amount,token) VALUES ('$data->user_id','$data->amount','$data->token')";
 $insert = pg_query($data->conn, $query);
@@ -221,4 +295,22 @@ if($insert){
 }
 return false;
 }
+function CreatePromoCode($data){
+$query = "INSERT INTO promo_codes (code,expire_date,discount,status) VALUES ('$data->code','$data->expire_date','$data->discount','active')";
+$insert = pg_query($data->conn, $query);
+if($insert){
+    return true;
+}
+return false;
+}
+// recommendation
+function createRecommendation($data){
+    $query = "INSERT INTO recommendation (description) VALUES ('$data->description')";
+    $insert = pg_query($data->conn, $query);
+    if($insert){
+        return true;
+    }
+    return false;
+    }
+
 ?>
