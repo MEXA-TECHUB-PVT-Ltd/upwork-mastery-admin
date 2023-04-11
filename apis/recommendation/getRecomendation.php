@@ -14,8 +14,8 @@ $data = new stdClass();
 $data->conn=connect();
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
     if (isset($_GET["id"])) {
-        $data->id=$_GET["id"];
-    if (!empty($row = GetVideoById($data))) {
+    $data->id=$_GET["id"];
+    if (!empty($row = GetRecommendationById($data))) {
         http_response_code(200);
         echo json_encode($row);
     }else{
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         http_response_code(200);
         echo json_encode(array(
             "status"=>false,
-            "message"=>"All Data Needed"
+            "message"=>"ID is required"
         ));
      }
 }else{

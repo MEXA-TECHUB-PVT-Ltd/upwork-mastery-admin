@@ -29,6 +29,8 @@ if (isset($_SESSION["admin_email"]) && isset($_SESSION["admin_id"])) {
                                 <i class="font-sm ti-lock text-grey-500 pr-0"></i>
                             </div>
                             <div class="form-check text-left mb-3">
+                                <input type="checkbox" class="form-check-input mt-2" id="exampleCheck1">
+                                <label class="form-check-label font-xsss text-grey-500" for="exampleCheck1">Remember me</label>
                                 <a href="forgot-password.php" class="fw-600 font-xsss text-grey-700 mt-2 mb-2 float-right">Forgot your Password?</a>
                             </div>
                             <div class="col-sm-12 p-0 text-left">

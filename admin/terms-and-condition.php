@@ -5,26 +5,24 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 }
 include_once("../include/db.php");
 $conn=connect();
-$sql = "SELECT * FROM admin";
+$sql = "SELECT * FROM terms_conditions where status = 'active'";
 $run = pg_query($conn,$sql);
 $result = pg_fetch_assoc($run);
-$terms_and_condition = $result["terms_and_condition"];
+if (!empty($result["terms_and_condition"])) {
+    $terms_and_condition = $result["terms_and_condition"];
+}else {
+    $terms_and_condition = '';
+}
 ?>
 <!-- HTML -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <?php include("../include/links.php");?>
-
 </head>
-
 <body class="color-theme-green mont-font">
-
     <div class="preloader"></div>
-
     <div class="main-wrapper">
-
         <!-- navigation -->
         <nav class="navigation scroll-bar">
             <div class="container pl-0 pr-0">
@@ -63,10 +61,88 @@ $terms_and_condition = $result["terms_and_condition"];
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card course-card  p-3 shadow-xss border-0 rounded-lg overflow-hidden mr-1 mb-4">
+                                <div class="card-image w-100 mb-3">
+                                    <table class="table display responsive product-overview mb-30" id="myTable">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>terms_and_condition</th>
+                                                <th>status</th>
+                                                <th>created_at</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
+$sql2 = "SELECT * FROM terms_conditions";
+$run2 = pg_query($conn,$sql2);
+$count = 1;
+while($result2 = pg_fetch_assoc($run2)){
+    $id = $result2["id"];
+    $terms_and_condition = $result2["terms_and_condition"];
+    $status = $result2["status"];
+    $created_at = $result2["created_at"];
+    $end_time4 = date("d-M Y", strtotime($created_at));
+                                            ?>
+                                        <tr>
+                                            <td><?php echo $count  ?></td>
+                                            <td><a href="#" data-toggle="modal" data-target="#Modallogin" onclick='loadEdit("<?php echo $id?>")'><i class="feather-edit text-grey-500 font-xs"></i></a></td>
+                                            <td><?php echo $status  ?></td>
+                                            <td><?php echo $end_time4  ?></td>
+                                            <td>
+                                                <a href="#" class="ml-4"><i class="feather-check text-primary font-xs"></i></a>
+                                                <a href="#" class="ml-4" onclick="confirmation(<?php echo $id?>)"><i class="feather-x text-danger font-xs"></i></a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        $count++;
+}
+?>
+                                        </tbody>
+                                    </table>
+                                </div> 
+                            </div> 
+                        </div> 
+                    </div>
                 </div>
             </div>
+
             <?php include("../include/footer.php")?>
+    <!-- Modal Add -->
+    <!-- <div class="modal bottom fade" style="overflow-y: scroll;" id="Modallogin" tabindex="1" role="dialog">
+         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content border-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="ti-close text-grey-500"></i></button>
+                <div class="modal-body p-3 d-flex align-items-center bg-none">
+                    <div class="card shadow-none rounded-0 w-100 p-2 pt-3 border-0">
+                        <div class="card-body rounded-0 text-left p-3">
+                            <h5 class="fw-700 display1-size display2-md-size mb-4">Add Video</h5>
+                            <form action="backend/manage-video/add-video.php" method="post">
+                                <div class="form-group icon-input mb-3">
+                                    <input type="text" name="title" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" placeholder="Title">                        
+                                </div>
+                                <div class="form-group icon-input mb-3">
+                                    <input type="text" name="link" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-400" placeholder="Youtube Video Link">                        
+                                </div>
+                                <div class="form-group icon-input mb-3">
+                                    <textarea name="description" style="width: 100%;height: 200px; resize:vertical;" rows="5" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-400" placeholder="Description"></textarea>
+                                </div>
+                                <div class="form-group icon-input mb-3">
+                                    <button type="submit" class="bg-primary-gradiant border-0 text-white fw-600 mt-3 text-uppercase font-xssss float-right rounded-lg d-inline-block p-2 lh-34 text-center rs-0 w200">Add</button>
+                                    <button type="button" data-dismiss="modal" class="bg-secoundry-gradiant border-0 text-mute fw-600 mt-3 text-uppercase font-xssss float-right rounded-lg d-inline-block p-2 pl-2 lh-34 text-center rs-0 w200" >Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div> -->
     </div> 
+    
     <?php include("../include/scripts.php");?>
 
     <script src="https://cdn.tiny.cloud/1/yo9e1ts5xtf3knyjm2uck5okrzzgtapaef9txyy5qk62bfyp/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>

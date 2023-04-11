@@ -20,14 +20,12 @@ if($upload){
     return false;
 }
 function updateTermsAndCondition($data){
-$query = "UPDATE admin SET
-terms_and_condition = '$data->terms_and_condition'
-WHERE email = '$data->email'";
-$upload = pg_query($data->conn, $query);
-if($upload){
-    return true;
-}
-    return false;
+    $query = "INSERT INTO terms_conditions (terms_and_condition,status) VALUES ('$data->terms_and_condition','active')";
+    $insert = pg_query($data->conn, $query);
+        if($insert){
+            return true;
+        }
+        return false;
 }
 function updatePrivacyPolicy($data){
 $query = "UPDATE admin SET
