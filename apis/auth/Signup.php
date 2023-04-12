@@ -15,24 +15,19 @@ $data->conn=connect();
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     $data2 = json_decode(file_get_contents("php://input"));
-    if ( !empty($data2->email) && !empty($data2->password)) {
+    if ( !empty($data2->email) && !empty($data2->password) && !empty($data2->username)) {
+        $data->username = $data2->username;
         $data->email = $data2->email;
         $password = $data2->password;
         $data->password = password_hash($password, PASSWORD_DEFAULT);
                 if (empty($row = searchByEmail($data))) {
-                    if (CreateUser($data)) {
-                        $last_id = pg_insert_id($data->conn);
-                        $data2 = array(
-                            "id" => "$last_id",
-                            "email" => $data->email,
-                            "password" => $data->password,
-                        );
+                    if ($dat = CreateUser($data)) {
                         http_response_code(200);
                         echo json_encode(
                             array(
                                 "status" => true,
                                 "message" => "User Created Successfully",
-                                "data" => $data2
+                                "user" => $dat
                             )
                         );
                         exit();
