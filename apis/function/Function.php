@@ -11,6 +11,7 @@ function CreateUser($data){
             return array(
                 "id"=>$last_id,
                 "email"=>$data->email,
+                "username"=>$data->username,
                 "password"=>$data->password,
             );
         }
@@ -98,6 +99,18 @@ function GetUserStatus($data){
         }
             return false;
         }
+        function GetUsers($data){
+            $query = "SELECT * FROM users";
+            $result = pg_query($data->conn, $query);
+            if ($result) {
+                $arr = array();
+                 while($r =pg_fetch_assoc($result)){
+                    $arr[] = $r;
+                 }
+                 return $arr;
+            }
+            return array();
+            }
         function sendMail($data){
             //SMTP Settings
             $mail = new PHPMailer();
