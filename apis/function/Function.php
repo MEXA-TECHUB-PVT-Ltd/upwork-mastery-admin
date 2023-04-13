@@ -1,6 +1,6 @@
 <?php 
-require_once "../../libraries/vendor/autoload.php";
 use PHPMailer\PHPMailer\PHPMailer;
+require_once "../../libraries/vendor/autoload.php";
 // Auth Api Function
 function CreateUser($data){
     $query = "INSERT INTO users (username,email,password) VALUES ('$data->username','$data->email','$data->password') RETURNING id";
@@ -111,26 +111,31 @@ function GetUserStatus($data){
             }
             return array();
             }
-        function sendMail($data){
-            //SMTP Settings
-            $mail = new PHPMailer();
-            $mail->isSMTP();
-            $mail->Host = "smtp.gmail.com";
-            $mail->SMTPAuth = true;
-            $mail->Username = "ventureoffical123@gmail.com"; //enter you email address
-            $mail->Password = 'bpvlxqxuetmtregm'; //enter you email password
-            $mail->Port = 465;
-            $mail->SMTPSecure = "ssl";
-            //Email Settings
-            $mail->isHTML(true);
-            $mail->setFrom("noreply@gmail.com");
-            $mail->addAddress($data->email); //enter you email address
-            $mail->Subject = ("$data->subject");
-            $mail->Body = $data->body;
-            if ($mail->send()) {
-               return true;
+            function sendMail($data){
+                try {
+                //SMTP Settings
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                $mail->Host = "smtp.gmail.com";
+                $mail->SMTPAuth = true;
+                $mail->Username = "ofertasv123@gmail.com"; //enter you email address
+                $mail->Password = 'eaomaxyylcgxgbau'; //enter you email password
+                $mail->Port = 465;
+                $mail->SMTPSecure = "ssl";
+                //Email Settings
+                $mail->isHTML(true);
+                $mail->setFrom("ofertasv123@gmail.com");
+                $mail->addAddress($data->email); //enter you email address
+                $mail->Subject = ("$data->subject");
+                $mail->Body = $data->body;
+                $mail->send();
+            } catch (Exception $e) {
+                echo $e->errorMessage(); //Pretty error messages from PHPMailer
+              } catch (Exception $e) {
+                echo $e->getMessage(); //Boring error messages from anything else!
+              }
+                 
            }
-       }
         // Promo Code
 function GetPromoCode($data){
     $query = "SELECT * FROM promo_codes WHERE status = 'active'";
@@ -290,6 +295,28 @@ function GetVideoById($data){
         }
         return false;
     }
+    function GetSavedVideo($data){
+        $query = "SELECT * FROM saved_videos WHERE user_id =$data->user_id";
+        $result = pg_query($data->conn, $query);
+        $row =array();
+        while($data2 = pg_fetch_assoc($result)){
+        $id = $data2["video_id"];
+        $query2 = "SELECT * FROM videos WHERE id =$id";
+        $result2 = pg_query($data->conn, $query2);
+        if ($result2) {
+            $data3 = pg_fetch_assoc($result2);
+                $row[] = [
+                    'id'=>$data3["id"],
+                    'title'=>$data3["title"],
+                    'link'=>$data3["link"],
+                    'description'=>$data3["description"],
+                    'created_at'=>$data3["created_at"],
+            ];
+            }
+        }
+        return $row;
+            
+        }
     // payments
 function payament($data){
 $query = "INSERT INTO payment (user_id,amount,token) VALUES ('$data->user_id','$data->amount','$data->token')";
