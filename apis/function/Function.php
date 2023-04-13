@@ -317,6 +317,17 @@ function GetVideoById($data){
         return $row;
             
         }
+    function GetSavedStatus($data){
+       
+        $query2 = "SELECT * FROM saved_videos WHERE video_id = $data->video_id AND user_id = $data->user_id";
+        $result2 = pg_query($data->conn, $query2);
+        if ($result2) {
+            if(pg_num_rows($result2) > 0){
+                return true;
+            }
+        }
+        return false;
+        }
     // payments
 function payament($data){
 $query = "INSERT INTO payment (user_id,amount,token) VALUES ('$data->user_id','$data->amount','$data->token')";
