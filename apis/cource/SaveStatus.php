@@ -13,14 +13,13 @@ include_once("../function/Function.php");
 $data = new stdClass();
 $data->conn=connect();
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
-    if (isset($_GET["video_id"]) && isset($_GET["user_id"])) {
+    if ( isset($_GET["user_id"])) {
         $data->user_id=$_GET["user_id"];
-        $data->video_id=$_GET["video_id"];
-    if (GetSavedStatus($data)) {
+    if ($row = GetSavedStatus($data)) {
         http_response_code(200);
         echo json_encode(array(
             "status"=>true,
-        "message"=> "video status is save."
+        "videos"=> $row
     ));
     }else{
         http_response_code(200);

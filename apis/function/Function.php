@@ -318,15 +318,36 @@ function GetVideoById($data){
             
         }
     function GetSavedStatus($data){
-       
-        $query2 = "SELECT * FROM saved_videos WHERE video_id = $data->video_id AND user_id = $data->user_id";
-        $result2 = pg_query($data->conn, $query2);
-        if ($result2) {
-            if(pg_num_rows($result2) > 0){
-                return true;
+        $query = "SELECT * FROM videos";
+        $result = pg_query($data->conn, $query);
+        if ($result) {
+            $row = array();
+            while($data2 = pg_fetch_assoc($result)){
+                $id = $data2["id"];
+                $user = $data->user_id;
+                $query2 = "SELECT * FROM saved_videos WHERE user_id =$user  AND video_id =$id";
+                $result2 = pg_query($data->conn, $query2);
+                if (pg_num_rows($result2) > 0) {
+                    $status = "saved";
+                }else{
+                    $status = "not_saved";
+                }
+                $row[] = [
+                    'status'=>true,
+                    'data'=>[
+                        'id'=>$data2["id"],
+                        'title'=>$data2["title"],
+                        'link'=>$data2["link"],
+                        'description'=>$data2["description"],
+                        'status'=>$status,
+                        'created_at'=>$data2["created_at"],
+                    ]
+                    
+                ];
             }
+            return $row;;
         }
-        return false;
+        return array();
         }
     // payments
 function payament($data){
