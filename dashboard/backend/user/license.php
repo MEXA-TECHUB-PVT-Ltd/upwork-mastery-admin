@@ -21,19 +21,19 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     }else{
         $data->status = 'inactive';
     }
-        if (createPrivacyPolicy($data)) {
-        $_SESSION["message"] = "Privacy Policy Created";
-        header("location:../../privacy.php");
+        if (CreateLicense($data)) {
+        $_SESSION["message"] = "Terms and condition Created";
+        header("location:../../Licence.php");
         }else{
             $_SESSION["message"] = "failed to Created Terms and condition";
-            header("location:../../privacy.php");
+            header("location:../../Licence.php");
         }
     }else{
         $_SESSION["message_error"] = "Please enter code";
-        header("location:../../privacy.php");
+        header("location:../../Licence.php");
     }
 }else{
     $_SESSION["message_error"] = "Server error";
-    header("location:../../privacy.php");
+    header("location:../../Licence.php");
     }
 ?>

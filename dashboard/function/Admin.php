@@ -17,22 +17,271 @@ if($upload){
 }
     return false;
 }
+function CreateTermsAndCondition($data){
+    if ($data->status == 'active') {
+        $select = "SELECT * FROM terms_conditions WHERE status = 'active'";
+        $upload2 = pg_query($data->conn, $select);
+        $TOTAL = pg_num_rows($upload2);
+        if ($TOTAL == 1){
+            $check =pg_fetch_assoc($upload2);
+        $active =$check["id"];
+        $query = "UPDATE terms_conditions SET
+        status = 'inactive'
+        WHERE id = '$active'";
+        $upload = pg_query($data->conn, $query);
+            if($upload){
+                $query = "INSERT INTO terms_conditions (terms_and_condition,status) VALUES ('$data->terms_and_condition','active')";
+                $insert = pg_query($data->conn, $query);
+                    if($insert){
+                        return true;
+                    }
+            }
+        }else {
+            $query = "INSERT INTO terms_conditions (terms_and_condition,status) VALUES ('$data->terms_and_condition','active')";
+            $insert = pg_query($data->conn, $query);
+                if($insert){
+                    return true;
+                }
+        }
+    }else {
+        $query = "INSERT INTO terms_conditions (terms_and_condition,status) VALUES ('$data->terms_and_condition','inactive')";
+        $insert = pg_query($data->conn, $query);
+            if($insert){
+                return true;
+            }
+            return false;
+    }
+    return false;
+}
+function CreateLicense($data){
+    if ($data->status == 'active') {
+        $select = "SELECT * FROM licence WHERE status = 'active'";
+        $upload2 = pg_query($data->conn, $select);
+        $TOTAL = pg_num_rows($upload2);
+        if ($TOTAL == 1){
+            $check =pg_fetch_assoc($upload2);
+        $active =$check["id"];
+        $query = "UPDATE licence SET
+        status = 'inactive'
+        WHERE id = '$active'";
+        $upload = pg_query($data->conn, $query);
+            if($upload){
+                $query = "INSERT INTO licence (agreement,status) VALUES ('$data->terms_and_condition','active')";
+                $insert = pg_query($data->conn, $query);
+                    if($insert){
+                        return true;
+                    }
+            }
+        }else {
+            $query = "INSERT INTO licence (agreement,status) VALUES ('$data->terms_and_condition','active')";
+            $insert = pg_query($data->conn, $query);
+                if($insert){
+                    return true;
+                }
+        }
+    }else {
+        $query = "INSERT INTO licence (agreement,status) VALUES ('$data->terms_and_condition','inactive')";
+        $insert = pg_query($data->conn, $query);
+            if($insert){
+                return true;
+            }
+            return false;
+    }
+    return false;
+}
 function updateTermsAndCondition($data){
-    $query = "INSERT INTO terms_conditions (terms_and_condition,status) VALUES ('$data->terms_and_condition','active')";
+    $query = "INSERT INTO terms_conditions (terms_and_condition,status) VALUES ('$data->terms_and_condition','inactive')";
     $insert = pg_query($data->conn, $query);
         if($insert){
             return true;
         }
         return false;
 }
-function updatePrivacyPolicy($data){
-$query = "UPDATE admin SET
-privacy_policy = '$data->terms_and_condition'
-WHERE email = '$data->email'";
-$upload = pg_query($data->conn, $query);
-if($upload){
-    return true;
+function updateTermsAndCondition2($data){
+    if ($data->status == 'active') {
+        $select = "SELECT * FROM terms_conditions WHERE status = 'active'";
+        $upload2 = pg_query($data->conn, $select);
+        $TOTAL = pg_num_rows($upload2);
+        $check =pg_fetch_assoc($upload2);
+        $active =$check["id"];
+        if ($TOTAL == 1 &&  $active == $data->id){
+            $query = "UPDATE terms_conditions SET
+        terms_and_condition = '$data->terms_and_condition'
+        WHERE id = '$data->id'";
+        $upload = pg_query($data->conn, $query);
+            if($upload){
+                return true;
+            }
+        }else {
+            $query = "UPDATE terms_conditions SET
+        status = 'inactive'
+        WHERE id = ' $active'";
+        $upload = pg_query($data->conn, $query);
+            if($upload){
+                $query3 = "UPDATE terms_conditions SET
+                terms_and_condition = '$data->terms_and_condition',
+                status = 'active'
+                WHERE id = '$data->id'";
+                $upload3 = pg_query($data->conn, $query3);
+                    if($upload3){
+                        return true;
+                    }
+            }
+            # code...
+        }
+    }else {
+        $query3 = "UPDATE terms_conditions SET
+        terms_and_condition = '$data->terms_and_condition'
+        WHERE id = '$data->id'";
+        $upload3 = pg_query($data->conn, $query3);
+            if($upload3){
+                return true;
+            }
+    }
+    return false;
 }
+function updateLicense($data){
+    if ($data->status == 'active') {
+        $select = "SELECT * FROM licence WHERE status = 'active'";
+        $upload2 = pg_query($data->conn, $select);
+        $TOTAL = pg_num_rows($upload2);
+        $check =pg_fetch_assoc($upload2);
+        $active =$check["id"];
+        if ($TOTAL == 1 &&  $active == $data->id){
+            $query = "UPDATE licence SET
+        agreement = '$data->terms_and_condition'
+        WHERE id = '$data->id'";
+        $upload = pg_query($data->conn, $query);
+            if($upload){
+                return true;
+            }
+        }else {
+            $query = "UPDATE licence SET
+        status = 'inactive'
+        WHERE id = ' $active'";
+        $upload = pg_query($data->conn, $query);
+            if($upload){
+                $query3 = "UPDATE licence SET
+                agreement = '$data->terms_and_condition',
+                status = 'active'
+                WHERE id = '$data->id'";
+                $upload3 = pg_query($data->conn, $query3);
+                    if($upload3){
+                        return true;
+                    }
+            }
+        }
+    }else {
+        $query3 = "UPDATE licence SET
+        agreement = '$data->terms_and_condition'
+        WHERE id = '$data->id'";
+        $upload3 = pg_query($data->conn, $query3);
+            if($upload3){
+                return true;
+            }
+    }
+    return false;
+}
+function deleteTermsAndCondition($data){
+    $query = "DELETE FROM terms_conditions WHERE id =" . $data->id;
+    $upload = pg_query($data->conn, $query);
+    if($upload){
+        return true;
+    }
+    return false;
+}
+function deleteAgreement($data){
+    $query = "DELETE FROM licence WHERE id =" . $data->id;
+    $upload = pg_query($data->conn, $query);
+    if($upload){
+        return true;
+    }
+    return false;
+}
+function createPrivacyPolicy($data){
+    if ($data->status == 'active') {
+        $select = "SELECT * FROM privacy_policy WHERE status = 'active'";
+        $upload2 = pg_query($data->conn, $select);
+        $TOTAL = pg_num_rows($upload2);
+        if ($TOTAL == 1){
+            $check =pg_fetch_assoc($upload2);
+        $active =$check["id"];
+        $query = "UPDATE privacy_policy SET
+        status = 'inactive'
+        WHERE id = '$active'";
+        $upload = pg_query($data->conn, $query);
+            if($upload){
+                $query = "INSERT INTO privacy_policy (policy,status) VALUES ('$data->terms_and_condition','active')";
+                $insert = pg_query($data->conn, $query);
+                    if($insert){
+                        return true;
+                    }
+            }
+        }else {
+            $query = "INSERT INTO privacy_policy (policy,status) VALUES ('$data->terms_and_condition','active')";
+            $insert = pg_query($data->conn, $query);
+                if($insert){
+                    return true;
+                }
+        }
+    }else {
+        $query = "INSERT INTO privacy_policy (policy,status) VALUES ('$data->terms_and_condition','inactive')";
+        $insert = pg_query($data->conn, $query);
+            if($insert){
+                return true;
+            }
+            return false;
+    }
+    return false;
+}
+function updatePolicy($data){
+    if ($data->status == 'active') {
+        $select = "SELECT * FROM privacy_policy WHERE status = 'active'";
+        $upload2 = pg_query($data->conn, $select);
+        $TOTAL = pg_num_rows($upload2);
+        $check =pg_fetch_assoc($upload2);
+        $active =$check["id"];
+        if ($TOTAL == 1 &&  $active == $data->id){
+            $query = "UPDATE privacy_policy SET
+        policy = '$data->terms_and_condition'
+        WHERE id = '$data->id'";
+        $upload = pg_query($data->conn, $query);
+            if($upload){
+                return true;
+            }
+        }else {
+            $query = "UPDATE privacy_policy SET
+        status = 'inactive'
+        WHERE id = ' $active'";
+        $upload = pg_query($data->conn, $query);
+            if($upload){
+                $query3 = "UPDATE privacy_policy SET
+                policy = '$data->terms_and_condition',
+                status = 'active'
+                WHERE id = '$data->id'";
+                $upload3 = pg_query($data->conn, $query3);
+                    if($upload3){
+                        return true;
+                    }
+            }
+        }
+    }else {
+        $query3 = "UPDATE privacy_policy SET
+        policy = '$data->terms_and_condition'
+        WHERE id = '$data->id'";
+        $upload3 = pg_query($data->conn, $query3);
+            if($upload3){
+                return true;
+            }
+    }
+    return false;
+}
+function deletePrivacy($data){
+    $query = "DELETE FROM privacy_policy WHERE id =" . $data->id;
+    $upload = pg_query($data->conn, $query);
+    if($upload){
+        return true;
+    }
     return false;
 }
 function createVideo($data){
