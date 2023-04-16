@@ -3,7 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 require_once "../../libraries/vendor/autoload.php";
 // Auth Api Function
 function CreateUser($data){
-    $query = "INSERT INTO users (username,email,password) VALUES ('$data->username','$data->email','$data->password') RETURNING id";
+    $query = "INSERT INTO users (username,email,password,status) VALUES ('$data->username','$data->email','$data->password','active') RETURNING id";
     $insert = pg_query($data->conn, $query);
         if($insert){
             $row = pg_fetch_row($insert);
