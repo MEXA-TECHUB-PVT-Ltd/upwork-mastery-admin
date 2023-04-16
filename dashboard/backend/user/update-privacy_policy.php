@@ -14,18 +14,19 @@ $data = new stdClass();
 $data->conn=connect();
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-    if (isset($_POST["terms_and_condition"])) {
+    if (isset($_POST["terms_and_condition"]) && isset($_POST["id"])) {
     $data->terms_and_condition=pg_escape_string($data->conn,$_POST["terms_and_condition"]);
+    $data->id=$_POST["id"];
     if ($_POST["status"] == 'active') {
         $data->status=$_POST["status"];
     }else{
         $data->status = 'inactive';
     }
-        if (createPrivacyPolicy($data)) {
-        $_SESSION["message"] = "Privacy Policy Created";
+        if (updatePolicy($data)) {
+        $_SESSION["message"] = "Privacy Policy Updated";
         header("location:../../privacy.php");
         }else{
-            $_SESSION["message"] = "failed to Created Terms and condition";
+            $_SESSION["message_error"] = "failed to update Privacy Policy";
             header("location:../../privacy.php");
         }
     }else{
@@ -35,5 +36,6 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 }else{
     $_SESSION["message_error"] = "Server error";
     header("location:../../privacy.php");
+
     }
 ?>

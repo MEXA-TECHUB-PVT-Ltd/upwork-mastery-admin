@@ -16,20 +16,24 @@ $data->conn=connect();
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if (isset($_POST["terms_and_condition"])) {
     $data->terms_and_condition=pg_escape_string($data->conn,$_POST["terms_and_condition"]);
-    $data->email = $_SESSION["admin_email"];
-        if (updateTermsAndCondition($data)) {
-        $_SESSION["message"] = "Terms and condition Updated";
-        header("location:../../terms-and-condition.php");
+    if ($_POST["status"] == 'active') {
+        $data->status=$_POST["status"];
+    }else{
+        $data->status = 'inactive';
+    }
+        if (CreateTermsAndCondition($data)) {
+        $_SESSION["message"] = "Terms and condition Created";
+        header("location:../../terms-and-conditions.php");
         }else{
-            $_SESSION["message"] = "failed to update Terms and condition";
-            header("location:../../terms-and-condition.php");
+            $_SESSION["message"] = "failed to Created Terms and condition";
+            header("location:../../terms-and-conditions.php");
         }
     }else{
         $_SESSION["message_error"] = "Please enter code";
-        header("location:../../terms-and-condition.php");
+        header("location:../../terms-and-conditions.php");
     }
 }else{
     $_SESSION["message_error"] = "Server error";
-    header("location:../../terms-and-condition.php");
+    header("location:../../terms-and-conditions.php");
     }
 ?>

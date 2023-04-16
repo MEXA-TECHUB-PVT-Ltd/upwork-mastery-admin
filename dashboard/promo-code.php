@@ -74,6 +74,12 @@
                 License Agreement
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="privacy.php">
+                <span data-feather="bookmark"></span>
+                Privacy Policy
+              </a>
+            </li>
           </ul>
         </div>
       </nav>
