@@ -7,18 +7,8 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upwork Mastery</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/js/jquery-toast-plugin/dist/jquery.toast.min.css">
-    <link rel="stylesheet" href="assets/css/dashboard.php">
-    <style>
+<?php include("include/links.php");?>
+<style>
         .bd-placeholder-img {
           font-size: 1.125rem;
           text-anchor: middle;
@@ -43,36 +33,60 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   padding: 10px;
 }
 
+.confirm-button-class {
+  background-color: #14a800 !important;
+  color: #14a800 !important;
+  border: 1px solid #14a800 !important;
+}
+.title-class {
+  font-size: 15px !important;
+}
+.icon-class {
+  font-size: 10px !important;
+}
+.confirm-button-class .swal2-icon svg {
+  width: 12px !important;
+  height: 12px !important;
+}
+.swal2-actions .swal2-confirm {
+  background-color: #14a800 !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.swal2-actions .swal2-cancel {
+  background-color: #fff !important;
+  color: #14a800 !important;
+  border: 1px solid #14a800 !important;
+  box-shadow: none !important;
+}
+.swal2-confirm:focus, .swal2-cancel:focus {
+  box-shadow: none !important;
+  border: 1px solid #14a800;
+}
+.swal2-actions button:hover {
+  background-color: #14a800 !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+}
       </style>
     <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
 <body>
-<header style="background:#ffffff" class="navbar navbar-light sticky-top flex-md-nowrap p-0 shadow">
-<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"><img style="height: 60px;" src="assets/image/logo.png" alt="logo"></a>
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="navbar-nav">
-    <div class="nav-item text-nowrap">
-    <li class="nav-item dropdown mx-3">
-        <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i style="color:#14a800" class="fa-solid fa-user"></i>
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <li><a class="dropdown-item" href="#">Profile</a></li>
-          <li><a class="dropdown-item" href="backend/user/logout.php">Logout</a></li>
-        </ul>
-      </li>      
-    </div>
-  </div>
-</header>
+<?php include("include/header.php");?>
   <div class="container-fluid ">
     <div class="row mt-120">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
         <div class="position-sticky pt-3">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="index.php"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
           <ul class="nav flex-column">
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Menu</span>
+                <a class="link-secondary" href="#" aria-label="Add a new report"></a>
+              </h6>
             <li class="nav-item">
-              <a class="nav-link mt-5" aria-current="page" href="index.php">
+              <a class="nav-link" aria-current="page" href="index.php">
                 <span data-feather="home"></span>
                 Dashboard
               </a>
@@ -89,12 +103,6 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
                 Videos
               </a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="bookmark"></span>
-                Promo Codes
-              </a>
-            </li> -->
             <li class="nav-item">
               <a class="nav-link" href="terms-and-conditions.php">
                 <span data-feather="folder"></span>
@@ -108,7 +116,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="#">
+              <a class="nav-link active" href="privacy.php">
                 <span data-feather="bookmark"></span>
                 Privacy Policy
               </a>
@@ -313,8 +321,8 @@ if ($status == 'active') {
     function confirmation(id){
         console.log(id);
         Swal.fire({
-  title: 'Are you sure?',
-  text: "want to delete!",
+  title: 'Conformation',
+  text: "Do you want to delete!",
   icon: 'warning',
   showCancelButton: true,
   confirmButtonColor: '#3085d6',

@@ -7,16 +7,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upwork Mastery</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/js/jquery-toast-plugin/dist/jquery.toast.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css">
+<?php include("include/links.php");?>
     <style>
         .bd-placeholder-img {
           font-size: 1.125rem;
@@ -44,35 +35,52 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 80px;
+  margin-left: 100px;
+}
+.confirm-button-class {
+  background-color: #14a800 !important;
+  color: #14a800 !important;
+  border: 1px solid #14a800 !important;
+}
+.title-class {
+  font-size: 15px !important;
+}
+.icon-class {
+  font-size: 10px !important;
+}
+.confirm-button-class .swal2-icon svg {
+  width: 12px !important;
+  height: 12px !important;
+}
+.swal2-actions .swal2-confirm {
+  background-color: #14a800 !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.swal2-actions .swal2-cancel {
+  background-color: #fff !important;
+  color: #14a800 !important;
+  border: 1px solid #14a800 !important;
+  box-shadow: none !important;
+}
+.swal2-confirm:focus, .swal2-cancel:focus {
+  box-shadow: none !important;
+  border: 1px solid #14a800;
+}
+.swal2-actions button:hover {
+  border: none !important;
 }
       </style>
+    <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
 <body>
-<header style="background:#ffffff" class="navbar navbar-light sticky-top flex-md-nowrap p-0 shadow">
-<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"><img style="height: 60px;" src="assets/image/logo.png" alt="logo"></a>
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="navbar-nav">
-    <div class="nav-item text-nowrap">
-    <li class="nav-item dropdown mx-3">
-          <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i style="color:#14a800" class="fa-solid fa-user"></i>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Logout</a></li>
-          </ul>
-        </li>      
-    </div>
-  </div>
-</header>
-    
+<?php include("include/header.php");?>
   <div class="container-fluid ">
     <div class="row mt-120">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
         <div class="position-sticky pt-3">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="index.php"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
           <ul class="nav flex-column">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span>Menu</span>
@@ -85,7 +93,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="#">
+              <a class="nav-link active" href="users.php">
                 <span data-feather="users"></span>
                 Users
               </a>
@@ -96,14 +104,8 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
                 Videos
               </a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="promo-code.php">
-                <span data-feather="bookmark"></span>
-                Promo Codes
-              </a>
-            </li> -->
             <li class="nav-item">
-            <a class="nav-link" href="terms-and-conditions.php">
+              <a class="nav-link" href="terms-and-conditions.php">
                 <span data-feather="folder"></span>
                 Terms And Conditions
               </a>
@@ -149,7 +151,7 @@ while($result = pg_fetch_assoc($run)){
 $firstLetter = substr($Username, 0, 1); // "H"
 ?>
               <div class="col-md-3 mt-3">
-                <div class="card" style="width: 13rem;">
+                <div class="card" style="width: 300px;">
                 <div class="row">
                   <div class="col-6">
                     <?php if ($status == 'block') {
@@ -179,10 +181,10 @@ $firstLetter = substr($Username, 0, 1); // "H"
                   </div>
                 </div>
                 
-                      <div class="user-initial text-uppercase"><?php echo $firstLetter?></div>
+                      <div class="user-initial text-uppercase text-center"><?php echo $firstLetter?></div>
                     <div class="card-body">
                       <h5 style="color:#14a800" class="card-title text-center"><?php echo $Username?></h5>
-                      <h6 class="card-text"><?php echo $email?></h6>
+                      <h6 class="card-text text-center"><?php echo $email?></h6>
                     </div>
                   </div>
               </div>
@@ -193,14 +195,9 @@ $firstLetter = substr($Username, 0, 1); // "H"
           </div>
       </div>
     </main>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/app.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.js"></script>
-<script src="assets/js/jquery-toast-plugin/dist/jquery.toast.min.js"></script> 
+    </div>
+    </div>
+<?php include("include/scripts.php");?>
 <script>
     function Active(id){
         console.log(id);
@@ -245,13 +242,13 @@ $firstLetter = substr($Username, 0, 1); // "H"
     function confirmation(id){
         console.log(id);
         Swal.fire({
-  title: 'Are you sure?',
-  text: "want to block user!",
+  title: 'Conformation',
+  text: "Do You Want To Block User",
   icon: 'warning',
   showCancelButton: true,
   confirmButtonColor: '#3085d6',
   cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, block it!'
+  confirmButtonText: 'Block'
 }).then((result) => {
   if (result.isConfirmed) {
     var myHeaders = new Headers();

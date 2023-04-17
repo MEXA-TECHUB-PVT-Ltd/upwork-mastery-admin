@@ -11,11 +11,16 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     $data->link=$_POST["link"];
     $data->description=$_POST["description"];
     $data->title=$_POST["title"];
+    if (filter_var($data->link, FILTER_VALIDATE_URL)) {
         if (createVideo($data)) {
             $_SESSION["message"] = "Video Created Successfully";
             header("location:../../videos.php");
         }else{
-            $_SESSION["message"] = "failed to create video";
+            $_SESSION["message_errors"] = "failed to create video";
+            header("location:../../videos.php");
+        }
+        }else {
+            $_SESSION["message_error"] = "Url Is not valid";
             header("location:../../videos.php");
         }
     }else {

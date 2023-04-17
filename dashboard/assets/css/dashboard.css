@@ -3,8 +3,7 @@
     --primary-white: #19af04;
     --black: #001e00;
     --white: #FFFFFF;
-    --gray:#c1c2c7;
-    --gray:#bdbec3;
+    --gray:#969AA8;
 }
 
 body {
@@ -30,7 +29,7 @@ body {
     bottom: 0;
     /* rtl:remove */
     left: 0;
-    z-index: 100; /* Behind the navbar */
+    z-index: 100;
     padding: 48px 0 0; /* Height of navbar */
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
   }
@@ -51,25 +50,28 @@ body {
   }
   
   .sidebar .nav-link {
-    font-weight: 700;
+    font-weight: 500;
     color: var(--gray);
   }
   
   .sidebar .nav-link .feather {
     margin-right: 20px;
     color: var(--gray);
+    margin-top: 10px;
   }
   
   .sidebar .nav-link.active {
-    color: var(--primary);
+    color: #fff;
+    background-color: #14a800;
+    border-color: #19af04;
   }
   
   .sidebar .nav-link:hover .feather,
   .sidebar .nav-link.active .feather {
-    color: var(--primary);
+    color: inherit;
   }
-  
   .sidebar-heading {
+    font-weight: 700;
     font-size: .75rem;
     text-transform: uppercase;
   }
@@ -77,7 +79,6 @@ body {
   /*
    * Navbar
    */
-  
   .navbar-brand {
     margin-top: 10px;
     margin-left: 30px;
@@ -87,8 +88,7 @@ body {
   }
   
   .navbar .navbar-toggler {
-    top: .25rem;
-    right: 1rem;
+    left: 1rem;
   }
   
   .navbar .form-control {
@@ -142,4 +142,26 @@ padding: 8px;
 .btn-primary:hover{
   background-color:var(--primary-white);
 }
-/* header */
+header{
+  top: 80px;
+background: #ffffff;
+width: 83%;
+margin-left: 265px;
+justify-content: end; 
+height: 80px;
+}
+@media (max-width: 767.98px) {
+  header {
+    width: 100%;
+    margin-left: 0;
+  }
+  .nav-link{
+    background: #ffffff;
+  }
+  .navbar-brand{
+    display: none;
+  }
+  .nav{
+    margin-top: -100px;
+  }
+}
