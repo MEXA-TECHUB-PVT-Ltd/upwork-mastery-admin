@@ -323,11 +323,11 @@ function createUser($data){
         return false;
 }
 function UpdateUser($data){
-    $query = "UPDATE users SET
+    $query = "UPDATE admin SET
     email = '$data->email',
-    referral_code = '$data->referral_code',
-    city = '$data->city',
-    country = '$data->country'
+    nameuser = '$data->username',
+    dob = '$data->dob',
+    gender = '$data->gender'
     WHERE id = '$data->id'";
     $upload = pg_query($data->conn, $query);
     if($upload){

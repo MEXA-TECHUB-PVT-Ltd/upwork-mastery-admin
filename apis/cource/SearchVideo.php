@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     }else{
         http_response_code(200);
         echo json_encode(array(
-            "status"=>false,
-            "message"=>"Failed To Get Data"
+            "status"=>true,
+            "message"=>"No Data Available"
         ));
      }
      }

@@ -35,7 +35,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 100px;
+  margin-left: 120px;
 }
 .confirm-button-class {
   background-color: #14a800 !important;
@@ -105,9 +105,15 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="privacy.php">
+                <span data-feather="lock"></span>
+                Privacy Policy
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="terms-and-conditions.php">
                 <span data-feather="folder"></span>
-                Terms And Conditions
+                Terms & Conditions
               </a>
             </li>
             <li class="nav-item">
@@ -116,17 +122,12 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
                 License Agreement
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="privacy.php">
-                <span data-feather="bookmark"></span>
-                Privacy Policy
-              </a>
-            </li>
+            
           </ul>
         </div>
       </nav>
       <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
           <h1 style="color: #14a800;" class="h2">Users</h1>
         </div>
         <div class="row">
@@ -173,7 +174,7 @@ $firstLetter = substr($Username, 0, 1); // "H"
                       <?php
                   }else{
                       ?>
-                        <li><a class="dropdown-item" onclick="Active(<?php echo $id?>)" href="#"><i class="text-primary fa-solid fa-check"></i> Active</a></li>
+                        <li><a class="dropdown-item" onclick="Active(<?php echo $id?>)" href="#"><i class="text-primary fa-solid fa-check"></i> Unblock</a></li>
                       <?php
                   }
                   ?>

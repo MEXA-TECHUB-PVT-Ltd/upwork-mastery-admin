@@ -77,7 +77,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
         <div class="position-sticky pt-3">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="index.php"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
-          <ul class="nav flex-column">
+    <ul class="nav flex-column">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span>Menu</span>
                 <a class="link-secondary" href="#" aria-label="Add a new report"></a>
@@ -101,21 +101,21 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="privacy.php">
+                <span data-feather="lock"></span>
+                Privacy Policy
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="terms-and-conditions.php">
                 <span data-feather="folder"></span>
-                Terms And Conditions
+                Terms & Conditions
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="Licence.php">
+              <a class="nav-link active" href="#">
                 <span data-feather="file"></span>
                 License Agreement
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="privacy.php">
-                <span data-feather="bookmark"></span>
-                Privacy Policy
               </a>
             </li>
           </ul>

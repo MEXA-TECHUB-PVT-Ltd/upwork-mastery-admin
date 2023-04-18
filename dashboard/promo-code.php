@@ -58,7 +58,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="#">
-                <span data-feather="bookmark"></span>
+                <span data-feather="lock"></span>
                 Promo Codes
               </a>
             </li>
@@ -76,7 +76,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="privacy.php">
-                <span data-feather="bookmark"></span>
+                <span data-feather="lock"></span>
                 Privacy Policy
               </a>
             </li>

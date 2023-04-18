@@ -37,8 +37,8 @@ if (isset($_SESSION["admin_email"]) && isset($_SESSION["admin_id"])) {
                                   <input type="email" name="email" class="form-control" placeholder="Email Address" id="exampleInputEmail1" aria-describedby="emailHelp">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Dollar amount (with dot and two decimal places)">
-                                    <span class="input-group-text"><a href="#"><i class="fa-sharp fa-solid fa-eye"></i></a></span>
+                                    <input type="password" id="password-field" name="password" class="form-control" placeholder="Password" aria-label="Dollar amount (with dot and two decimal places)">
+                                    <span class="input-group-text"><a href="#"><i id="toggle-password" class="fa-sharp fa-solid fa-eye"></i></a></span>
                                   </div>
                                 <div class="forget-anchar mb-3 text-end">
                                     <a class="forget-password" href="forget-password.php">Forget Password?</a>
@@ -91,6 +91,18 @@ $.toast({
 	unset($_SESSION["message_error"]);
 }
 ?>
+<script>
+// Get the eye icons and password fields
+const togglePassword1 = document.querySelector('#toggle-password');
+const passwordField1 = document.querySelector('#password-field');
+// Add click event listeners to the eye icons
+togglePassword1.addEventListener('click', function() {
+  const type = passwordField1.getAttribute('type') === 'password' ? 'text' : 'password';
+  passwordField1.setAttribute('type', type);
+  togglePassword1.classList.toggle('fa-eye-slash');
+});
+
+</script>
 </body>
 
 </html>
