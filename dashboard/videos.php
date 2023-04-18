@@ -123,21 +123,21 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="privacy.php">
+                <span data-feather="lock"></span>
+                Privacy Policy
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="terms-and-conditions.php">
                 <span data-feather="folder"></span>
-                Terms And Conditions
+                Terms & Conditions
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="Licence.php">
                 <span data-feather="file"></span>
                 License Agreement
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="privacy.php">
-                <span data-feather="bookmark"></span>
-                Privacy Policy
               </a>
             </li>
           </ul>
@@ -154,12 +154,11 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
             <button href="#" class="border-0 fw-600 btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">Add Video</button>
           </div>
         </div>
-        
             <div class="row">
             <?php
 include_once("../include/db.php");
 $conn=connect();
-$sql = "SELECT * FROM videos";
+$sql = "SELECT * FROM videos ORDER BY created_at ASC";
 $run = pg_query($conn,$sql);
 while($result = pg_fetch_assoc($run)){
     $id = $result["id"];
@@ -170,13 +169,15 @@ parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
   ?>
               <div class="col-md-4 mb-3">
                 <div id class="card" style="width: 400px">
-                <a style="color:black" class="text-end mx-2" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" onclick="loadEdit(<?php echo $id?>)" data-bs-toggle="modal" data-bs-target="#Modaledit" href="#"><i class="text-primary fa-solid fa-pen-to-square"></i> Update</a></li>
-                    <li><a class="dropdown-item" onclick="confirmation(<?php echo $id?>)" href="#"><i class="text-danger fa-solid fa-trash"></i> Delete</a></li>
-                </ul>
+                <div class="text-end">
+                    <a style="color:black" class="mx-2" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" onclick="loadEdit(<?php echo $id?>)" data-bs-toggle="modal" data-bs-target="#Modaledit" href="#"><i class="text-primary fa-solid fa-pen-to-square"></i> Update</a></li>
+                        <li><a class="dropdown-item" onclick="confirmation(<?php echo $id?>)" href="#"><i class="text-danger fa-solid fa-trash"></i> Delete</a></li>
+                    </ul>
+                </div>
                   <a href="#" onclick="view(<?php echo $id?>)" data-bs-toggle="modal" data-bs-target="#exampleModal2"><img style="width:385px; height:200px" src="https://img.youtube.com/vi/<?php echo $my_array_of_vars['v']?>/0.jpg" class="card-img-top" alt="thumbnail"></a>
                   <div class="card-body" style="height:150px">
                     <h5 style="color:#14a800" class="card-title"><?php echo $title?></h5>
@@ -203,14 +204,14 @@ if (count($words) > 15) {
 <!-- Button trigger modal -->
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Add Video</h1>
         <button style="box-shadow: none;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="backend/manage-video/add-video.php" method="post">
-      <div class="modal-body">
+      <div class="modal-body p-3">
         <div class="input-group mb-3">
           <input style="box-shadow: none;" name="title" type="text" class="form-control" placeholder="Video Title">
         </div>
@@ -222,7 +223,7 @@ if (count($words) > 15) {
         </div>
       </div>
       <div class="modal-footer d-flex justify-content-center mt-3">
-        <button style="padding:7px 150px;" type="submit" class="btn btn-primary ">Add</button>
+        <button style="padding:7px 200px;" type="submit" class="btn btn-primary ">Add</button>
       </div>
       </form>
     </div>
@@ -230,14 +231,14 @@ if (count($words) > 15) {
 </div>
 <!-- Modal -->
 <div class="modal fade" id="Modaledit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Video</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Video</h1>
         <button style="box-shadow: none;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="backend/manage-video/edit-video.php" method="post">
-      <div class="modal-body">
+      <div class="modal-body p-3">
         <div class="input-group mb-3">
           <input style="box-shadow: none;" id="title" name="title" type="text" class="form-control" placeholder="Video Title">
         </div>
@@ -250,7 +251,7 @@ if (count($words) > 15) {
         <input type="hidden" name="id" id="id">
       </div>
       <div class="modal-footer d-flex justify-content-center mt-3">
-        <button style="padding:7px 150px;" type="submit" class="btn btn-primary ">Edit</button>
+        <button style="padding:7px 200px;" type="submit" class="btn btn-primary ">Update</button>
       </div>
       </form>
     </div>
@@ -267,7 +268,8 @@ if (count($words) > 15) {
       <div class="modal-body">
         <div class="thumbnail-container">
           <img src="https://img.youtube.com/vi/U69WLdfsa9jInW0/0.jpg" alt="thumbnail">
-          <button class="play-button" data-bs-dismiss="modal" aria-label="Close" onclick="video()" data-bs-toggle="modal" data-bs-target="#exampleModal3"><i class="fa fa-play"></i></button>
+          <input type="hidden" id="videoURL">
+          <button class="play-button" onclick="video()" data-bs-toggle="modal" data-bs-target="#exampleModal3"><i class="fa fa-play"></i></button>
         </div>
         <div class="row mt-3">
           <div class="col-4">
@@ -302,7 +304,7 @@ if (count($words) > 15) {
         </div>
       </div>
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-primary"><i class="fa-solid fa-link"></i> Copy Link</button>
+        <button style="padding:7px 200px;" type="button" class="btn btn-primary"><i class="fa-solid fa-link"></i> Copy Link</button>
       </div>
     </div>
   </div>
@@ -316,7 +318,7 @@ if (count($words) > 15) {
       <div class="modal-body">
         <div class="modal-body">
           <div class="embed-responsive embed-responsive-16by9">
-            <iframe id="cartoonVideo" class="embed-responsive-item" width="100%" height="315" src="//www.youtube.com/embed/YE7VzlLtp-4" allowfullscreen></iframe>
+            <div id="player"></div>
           </div>
         </div>
       </div>
@@ -328,23 +330,23 @@ if (count($words) > 15) {
     </div>
 <?php include("include/scripts.php");?>
 <script>
-  $(document).ready(function(){
-      /* Get iframe src attribute value i.e. YouTube video url
-      and store it in a variable */
-      var url = $("#cartoonVideo").attr('src');
-      
-      /* Assign empty url value to the iframe src attribute when
-      modal hide, which stop the video playing */
-      $("#myModal").on('hide.bs.modal', function(){
-          $("#cartoonVideo").attr('src', '');
-      });
-      
-      /* Assign the initially stored url back to the iframe src
-      attribute when modal is displayed again */
-      $("#myModal").on('show.bs.modal', function(){
-          $("#cartoonVideo").attr('src', url);
-      });
-  });
+  function video() {
+    const videoId = document.getElementById('videoURL').value;
+const playerContainer = document.getElementById('player');
+console.log(videoId);
+const playerHtml = `
+<iframe 
+  width="100%" 
+  height="500px" 
+  src="https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&modestbranding=1&showinfo=0&rel=0"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen>
+</iframe>
+`;
+
+playerContainer.innerHTML = playerHtml;
+  }
   </script>
   <?php 
 if (isset($_SESSION["message"])) {
@@ -393,6 +395,7 @@ $.toast({
                 console.log(response);
                 $('#title2').html(response.title);
                 $('#link2').html(response.link);
+                $('#videoURL').val(response.thumbnail);
                 $('#des-text').html(response.description);
  // And finally you can this function to show the pop-up/dialog
  $("#exampleModal2").modal();

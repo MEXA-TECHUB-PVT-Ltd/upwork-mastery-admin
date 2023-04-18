@@ -7,13 +7,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upwork Mastery</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<?php include("include/links.php");?>
     <style>
         .bd-placeholder-img {
           font-size: 1.125rem;
@@ -44,7 +38,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
                 <a class="link-secondary" href="#" aria-label="Add a new report"></a>
               </h6>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
+              <a class="nav-link" aria-current="page" href="index.php">
                 <span data-feather="home"></span>
                 Dashboard
               </a>
@@ -62,9 +56,15 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="privacy.php">
+                <span data-feather="lock"></span>
+                Privacy Policy
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="terms-and-conditions.php">
                 <span data-feather="folder"></span>
-                Terms And Conditions
+                Terms & Conditions
               </a>
             </li>
             <li class="nav-item">
@@ -73,12 +73,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
                 License Agreement
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="privacy.php">
-                <span data-feather="bookmark"></span>
-                Privacy Policy
-              </a>
-            </li>
+            
           </ul>
         </div>
       </nav>
@@ -92,8 +87,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
           <div class="col-6">
           <div class="row">
             <div class="col-lg-12 pt-4 mb-3 d-flex justify-content-end">
-                <button href="#" class="border-0 fw-600 btn btn-primary " data-toggle="modal" data-target="#Modallogin">Update Profile</button>
-                <button href="#" class="border-0 fw-600 btn btn-primary mx-3" data-toggle="modal" data-target="#Modallogin">Update Password</button>
+                <button class="border-0 fw-600 btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#Modaledit">Update Password</button>
             </div>
         </div>
           </div>
@@ -102,31 +96,65 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
             <div class="col-md-8 ">
                 <div class="card">
                     <div class="card-body">
-                        <form>
+                      <?php 
+include_once("../include/db.php");
+$conn=connect();
+$sql = "SELECT * FROM admin";
+$run = pg_query($conn,$sql);
+$count = 1;
+$result = pg_fetch_assoc($run);
+    $Username = $result["nameuser"];
+    $email = $result["email"];
+    $dob = $result["dob"];
+    $gender = $result["gender"];
+
+?>
+                        <form action="backend/user/updateprofile.php" method="post">
                             <div class="row mt-5">
                                 <div class="col-md-6">
                                     <div class="mb-5">
-                                        <input type="email" placeholder="Username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <input name="email" value="<?php echo $email?>" type="email" placeholder="Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                       </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-5">
-                                        <input type="text" placeholder="Email" class="form-control"  id="exampleInputPassword1">
+                                        <input name="username" value="<?php echo $Username?>" type="text" placeholder="Username" class="form-control"  id="exampleInputPassword1">
                                       </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-5">
-                                        <input type="date" placeholder="Date Of Birth" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <input name="dob" value="<?php echo $dob?>" type="date" placeholder="Date Of Birth" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                       </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Select Gender</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Other</option>
+                                    <select name="gender" class="form-select" aria-label="Default select example">
+                                    <?php
+                                    if ($gender == 'male') {?>
+<option selected>Select Gender</option>
+                                        <option selected value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                        <?php
+                                    }elseif ($gender == 'female') {
+                                      ?>
+                                      <option>Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option selected value="female">Female</option>
+                                        <option value="other">Other</option>
+                                        <?php
+                                    }else {
+                                      ?>
+                                      <option selected>Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option selected value="other">Other</option>
+                                        <?php
+                                    }?>
+                                      
+                                    
+                                    
                                       </select>
                                 </div>
                             </div>
@@ -142,12 +170,108 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+<div class="modal fade" id="Modaledit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Password</h1>
+        <button style="box-shadow: none;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="backend/user/change-password.php" method="post">
+      <div class="modal-body p-3">
+        <div class="input-group mb-3">
+          <input style="box-shadow: none;" id="password-field" name="password" type="password" class="form-control" placeholder="Old Password">
+          <span  class="input-group-text"><a href="#"><i id="toggle-password" style="color:#969AA8" class="fa-sharp fa-solid fa-eye"></i></a></span>
+        </div>
+
+        <div class="input-group mb-3">
+          <input style="box-shadow: none;" id="password-field2" type="password" name="new-password" class="form-control" placeholder="New password">
+          <span  class="input-group-text"><a href="#"><i id="toggle-password2" style="color:#969AA8" class="fa-sharp fa-solid fa-eye"></i></a></span>
+        </div>
+        <div class="input-group mb-3">
+          <input style="box-shadow: none;" id="password-field3" type="password" name="confirm-password" class="form-control" placeholder="New password">
+          <span  class="input-group-text"><a href="#"><i id="toggle-password3" style="color:#969AA8" class="fa-sharp fa-solid fa-eye"></i></a></span>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center mt-3">
+        <button style="padding:7px 200px;" type="submit" class="btn btn-primary ">Update</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
     </main>
     </div>
     </div>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/app.js"></script>
+    <?php include("include/scripts.php");?>
+<?php 
+if (isset($_SESSION["message"])) {
+	# code...
+	?>
+	<script>
+$.toast({
+            heading: 'Looks Good!',
+            text: '<?php echo $_SESSION["message"]?>',
+            position: 'top-right',
+            loaderBg:'#878787',
+            hideAfter: 3500
+        });
+	</script>
+	<?php
+	unset($_SESSION["message"]);
+}
+
+?>
+		<?php 
+if (isset($_SESSION["message_error"])) {
+	# code...
+	?>
+	<script>
+$.toast({
+            heading: 'Opps! Failed',
+            text: '<?php echo $_SESSION["message_error"]?>',
+            position: 'top-right',
+            loaderBg:'#fec107',
+            icon: 'error',
+            hideAfter: 3500
+        });
+	</script>
+	<?php
+	unset($_SESSION["message_error"]);
+}
+?>
+<script>
+// Get the eye icons and password fields
+const togglePassword1 = document.querySelector('#toggle-password');
+const passwordField1 = document.querySelector('#password-field');
+
+const togglePassword2 = document.querySelector('#toggle-password2');
+const passwordField2 = document.querySelector('#password-field2');
+
+const togglePassword3 = document.querySelector('#toggle-password3');
+const passwordField3 = document.querySelector('#password-field3');
+
+// Add click event listeners to the eye icons
+togglePassword1.addEventListener('click', function() {
+  const type = passwordField1.getAttribute('type') === 'password' ? 'text' : 'password';
+  passwordField1.setAttribute('type', type);
+  togglePassword1.classList.toggle('fa-eye-slash');
+});
+
+togglePassword2.addEventListener('click', function() {
+  const type = passwordField2.getAttribute('type') === 'password' ? 'text' : 'password';
+  passwordField2.setAttribute('type', type);
+  togglePassword2.classList.toggle('fa-eye-slash');
+});
+
+togglePassword3.addEventListener('click', function() {
+  const type = passwordField3.getAttribute('type') === 'password' ? 'text' : 'password';
+  passwordField3.setAttribute('type', type);
+  togglePassword3.classList.toggle('fa-eye-slash');
+});
+
+</script>
+
 </body>
 </html>

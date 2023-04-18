@@ -104,9 +104,15 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link active" href="privacy.php">
+                <span data-feather="lock"></span>
+                Privacy Policy
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="terms-and-conditions.php">
                 <span data-feather="folder"></span>
-                Terms And Conditions
+                Terms & Conditions
               </a>
             </li>
             <li class="nav-item">
@@ -115,12 +121,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
                 License Agreement
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="privacy.php">
-                <span data-feather="bookmark"></span>
-                Privacy Policy
-              </a>
-            </li>
+            
           </ul>
         </div>
       </nav>

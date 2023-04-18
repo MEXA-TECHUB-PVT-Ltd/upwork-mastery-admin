@@ -19,29 +19,29 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             if (password_verify($password,$fetchPassword)) {
                 if(resetPassword($data)){
                     $_SESSION["message"]="Password Updated Successfully";
-                    header("location:../../change-password.php");
+                    header("location:../../profile.php");
                     }else{
                         $_SESSION["message_error"]="Failed to update password ";
-                        header("location:../../change-password.php");
+                        header("location:../../profile.php");
                     }
                 }else{
                     $_SESSION["message_error"]="Password Incorrect";
-                    header("location:../../change-password.php");
+                    header("location:../../profile.php");
                 }
             }else{
                 $_SESSION["message_error"]="user not found";
-                header("location:../../change-password.php?USER=$data->email");
+                header("location:../../profile.php?USER=$data->email");
             }
     
         }else{
             $_SESSION["message_error"]="new Password and confirm password are not same";
-            header("location:../../change-password.php");
+            header("location:../../profile.php");
         }
 
 
 }else{
     $_SESSION["message_error"]="All Data Needed";
-    header("location:../../change-password.php");
+    header("location:../../profile.php");
     }
 }else{
     http_response_code(500);

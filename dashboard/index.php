@@ -14,6 +14,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
     <style>
         .bd-placeholder-img {
           font-size: 1.125rem;
@@ -27,9 +28,11 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
           .bd-placeholder-img-lg {
             font-size: 3.5rem;
           }
+          .card{
+            width: 100%;
+          }
         }
       </style>
-    <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
 <body>
 <?php include("include/header.php");?>
@@ -37,7 +40,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
     <div class="row mt-120">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
         <div class="position-sticky pt-3">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="#"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="#"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
           <ul class="nav flex-column">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span>Menu</span>
@@ -62,21 +65,21 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="privacy.php">
+                <span data-feather="lock"></span>
+                Privacy Policy
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="terms-and-conditions.php">
                 <span data-feather="folder"></span>
-                Terms And Conditions
+                Terms & Conditions
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="Licence.php">
                 <span data-feather="file"></span>
                 License Agreement
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="privacy.php">
-                <span data-feather="bookmark"></span>
-                Privacy Policy
               </a>
             </li>
           </ul>
@@ -98,7 +101,7 @@ $run3 = pg_query($conn,$sql3);
 $video = pg_num_rows($run3);
 ?>
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
           <h1 style="color: #14a800;" class="h2">Dashboard</h1>
         </div>
         <div class="row">
@@ -128,7 +131,7 @@ $video = pg_num_rows($run3);
                     <div class="title"><h3>Total Videos</h3></div>
                   </div>
                   <div class="card-icon col-3">
-                    <img src="assets/image/Group 3156.png" alt="icon">
+                    <img src="assets/image/Group 3161.png" alt="icon">
                   </div>
                   <div class="totals">
                   <h4><?php echo $video?></h4>
@@ -142,7 +145,7 @@ $video = pg_num_rows($run3);
           <h4>Course Video</h4>
         </div>
         <div class="row">
-          <div class="col-md-7">
+          <div class="col-md-7 col-sm-12">
             <div class="row">
               <?php
             $sql = "SELECT * FROM videos";
@@ -154,22 +157,22 @@ $video = pg_num_rows($run3);
                 $description = $result["description"];
             parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
 ?>
-              <div class="col-md-4 mt-3">
+              <div class="col-md-4 mt-3 col-sm-12">
                 <div class="card" style="width: 14rem;">
-                  <img src="https://img.youtube.com/vi/<?php echo $my_array_of_vars['v']?>/0.jpg" class="card-img-top" alt="thumbnail">
+                  <a href="videos.php"><img src="https://img.youtube.com/vi/<?php echo $my_array_of_vars['v']?>/0.jpg" class="card-img-top" alt="thumbnail"></a>
                   <div class="card-body" style="height:200px">
-                    <h6 style="color:#14a800" class="card-title"><?php echo $title?></h6>
+                  <a style="text-decoration:none;" href="videos.php"><h6 style="color:#14a800" class="card-title"><?php echo $title?></h6></a>
                     <?php
 
 $words = explode(" ", $description);
 if (count($words) > 10) {
   $description = implode(" ", array_slice($words, 0, 10)) . "...";
 ?>
-                    <p id="description" class="card-text"><?php echo $description?></p>
+                    <a style="text-decoration:none" href="videos.php"><p style="color:black" id="description" class="card-text"><?php echo $description?></p></a>
 <?php
 }else {
   ?>
-                    <p id="description" class="card-text"><?php echo $description?></p>
+                    <a style="text-decoration:none" href="videos.php"><p style="color:black" id="description" class="card-text"><?php echo $description?></p></a>
   <?php
 }
 ?>
@@ -183,6 +186,68 @@ if (count($words) > 10) {
             ?>
             </div>
           </div>
+          <?php
+  $time = strtotime(date(("Y-m-d")));
+$now = date("M-Y", strtotime("0 day", $time));
+$next = date("M-Y", strtotime("+1 month", $time));
+$oneMonth = date("M-Y", strtotime("-1 month", $time));
+$twoMonth = date("M-Y", strtotime("-2 month", $time));
+$thrMonth = date("M-Y", strtotime("-3 month", $time));
+$fouMonth = date("M-Y", strtotime("-4 month", $time));
+$fivMonth = date("M-Y", strtotime("-5 month", $time));
+$sixMonth = date("M-Y", strtotime("-6 month", $time));
+$sevMonth = date("M-Y", strtotime("-7 month", $time));
+$eigMonth = date("M-Y", strtotime("-8 month", $time));
+$ninMonth = date("M-Y", strtotime("-9 month", $time));
+$tenMonth = date("M-Y", strtotime("-10 month", $time));
+$eleMonth = date("M-Y", strtotime("-11 month", $time));
+$one = 0;
+$two = 0;
+$three = 0;
+$four = 0;
+$five = 0;
+$six = 0;
+$seven = 0;
+$eight = 0;
+$nine = 0;
+$ten = 0;
+$eleven = 0;
+$twl = 0;
+  $current_month = 
+$sql = "SELECT * FROM users";
+$run = pg_query($conn,$sql);
+while($users = pg_fetch_assoc($run)){
+  $created_at = $users["created_at"];
+  $end_time4 = date("M-Y", strtotime($created_at));
+
+  if ($created_at == $now) {
+    $one++;
+  }elseif ($created_at == $twoMonth) {
+    $two++;
+  }elseif ($created_at == $thrMonth) {
+    $three++;
+  }elseif ($created_at == $fouMonth) {
+    $four++;
+  }elseif ($created_at == $fivMonth) {
+    $five++;
+  }elseif ($created_at == $sixMonth) {
+    $six++;
+  }elseif ($created_at == $sevMonth) {
+    $seven++;
+  }elseif ($created_at == $eigMonth) {
+    $eight++;
+  }elseif ($created_at == $ninMonth) {
+    $nine++;
+  }elseif ($created_at == $tenMonth) {
+    $ten++;
+  }elseif ($created_at == $eleMonth) {
+    $eleven++;
+  }else {
+    $twl++;
+  }
+}
+
+  ?>
           <div class="col-md-5 mt-3">
             <div class="card">
               <div class="card-body">
@@ -190,12 +255,14 @@ if (count($words) > 10) {
                   <div class="col-4">
                   <h5>Users</h5>
                   </div>
-                  <div class="col-8">
+                  <div class="col-4 ms-auto">
                   <div class="btn-toolbar mb-2 mb-md-0 justify-content-end">
-                  <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                    <span data-feather="calendar"></span>
-                    This week
-                  </button>
+                  <select onchange="dayFilter(this.value)" class="form-select" aria-label="Default select example">
+                    <option value="year">By Years</option>
+                      <option selected value="month">By months</option>
+                      <option value="weeks">By Weeks</option>
+                      <option value="days">By Days</option>
+                    </select>
                 </div>
                   </div>
                 </div>
@@ -208,8 +275,106 @@ if (count($words) > 10) {
     </div>
     </div>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
 <script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/app.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+		function dayFilter(data) {
+				$.ajax({
+					url: "backend/user/filter.php",
+					type: "POST",
+					data: { data: data },
+					success: function(response) {
+            console.log(response);
+            var ctx2 = document.getElementById('myChart')
+    // eslint-disable-next-line no-unused-vars
+    var myChart2 = new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: response.days,
+        datasets: [{
+          data: response.data,
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#19af04',
+          borderWidth: 4,
+          pointBackgroundColor: '#19af04'
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: false
+            }
+          }]
+        },
+        legend: {
+          display: false
+        }
+      }
+    })
+          }
+				});
+      }
+	</script>
+<script>
+  $(document).ready(function() {
+    var ctx2 = document.getElementById('myChart')
+    // eslint-disable-next-line no-unused-vars
+    var myChart2 = new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: [
+          '<?php echo $eleMonth?>',
+          '<?php echo $tenMonth?>',
+          '<?php echo $ninMonth?>',
+          '<?php echo $eigMonth?>',
+          '<?php echo $sevMonth?>',
+          '<?php echo $sixMonth?>',
+          '<?php echo $fivMonth?>',
+          '<?php echo $fouMonth?>',
+          '<?php echo $thrMonth?>',
+          '<?php echo $twoMonth?>',
+          '<?php echo $oneMonth?>',
+          '<?php echo $now?>',
+        ],
+        datasets: [{
+          data: [
+            <?php echo $one?>,
+            <?php echo $two?>,
+            <?php echo $three?>,
+            <?php echo $four?>,
+            <?php echo $five?>,
+            <?php echo $six?>,
+            <?php echo $seven?>,
+            <?php echo $eight?>,
+            <?php echo $nine?>,
+            <?php echo $ten?>,
+            <?php echo $eleven?>,
+            <?php echo $twl?>
+          ],
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#19af04',
+          borderWidth: 4,
+          pointBackgroundColor: '#19af04'
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: false
+            }
+          }]
+        },
+        legend: {
+          display: false
+        }
+      }
+    })
+  }
+</script>
 </body>
 </html>

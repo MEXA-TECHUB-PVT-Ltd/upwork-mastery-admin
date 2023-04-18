@@ -25,7 +25,7 @@ $row = pg_fetch_assoc ($result);
     "title"=>$title,
     "link"=>$link,
     "description"=>$description,
-    "thumbnail"=>$url
+    "thumbnail"=>$vid
    );
 //    $id = $row["id"];
 // Important to echo the record in JSON format

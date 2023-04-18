@@ -212,13 +212,22 @@ function GetVideos($data){
     $result = pg_query($data->conn, $query);
     if ($result) {
         $row = array();
+        
         while($data = pg_fetch_assoc($result)){
+            $link=$data["link"];
+            parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
+            if (!empty($my_array_of_vars["v"])) {
+                $video = $my_array_of_vars["v"];
+            }else {
+                $video = "";
+            }
             $row[] = [
                 'status'=>true,
                 'data'=>[
                     'id'=>$data["id"],
                     'title'=>$data["title"],
-                    'link'=>$data["link"],
+                    'video_link'=>$data["link"],
+                    'link'=>$video,
                     'description'=>$data["description"],
                     'created_at'=>$data["created_at"],
                 ]
@@ -234,12 +243,20 @@ function GetVideoById($data){
     $result = pg_query($data->conn, $query);
     if ($result) {
         $data = pg_fetch_assoc($result);
+        $link=$data["link"];
+            parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
+            if (!empty($my_array_of_vars["v"])) {
+                $video = $my_array_of_vars["v"];
+            }else {
+                $video = "";
+            }
         $row = [
             'status'=>true,
             'data'=>[
                 'id'=>$data["id"],
                 'title'=>$data["title"],
-                'link'=>$data["link"],
+                'video_link'=>$data["link"],
+                'link'=>$video,
                 'description'=>$data["description"],
                 'created_at'=>$data["created_at"],
             ]
@@ -253,10 +270,18 @@ function GetVideoById($data){
         if ($result) {
             $row = array();
             while($data = pg_fetch_assoc($result)){
+                $link=$data["link"];
+            parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
+            if (!empty($my_array_of_vars["v"])) {
+                $video = $my_array_of_vars["v"];
+            }else {
+                $video = "";
+            }
                 $row[] = [
                         'id'=>$data["id"],
                         'title'=>$data["title"],
-                        'link'=>$data["link"],
+                        'video_link'=>$data["link"],
+                        'link'=>$video,
                         'description'=>$data["description"],
                         'created_at'=>$data["created_at"],
                 ];
@@ -300,19 +325,34 @@ function GetVideoById($data){
         $result = pg_query($data->conn, $query);
         $row =array();
         while($data2 = pg_fetch_assoc($result)){
-        $id = $data2["video_id"];
+            if (!empty($data2)) {
+                # code...
+                $id = $data2["video_id"];
         $query2 = "SELECT * FROM videos WHERE id =$id";
         $result2 = pg_query($data->conn, $query2);
         if ($result2) {
             $data3 = pg_fetch_assoc($result2);
+            if (!empty($data3)) {
+                # code...
+                $link=$data3["link"];
+            parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
+            if (!empty($my_array_of_vars["v"])) {
+                $video = $my_array_of_vars["v"];
+            }else {
+                $video = "";
+            }
                 $row[] = [
                     'id'=>$data3["id"],
                     'title'=>$data3["title"],
-                    'link'=>$data3["link"],
+                    'video_link'=>$data3["link"],
+                    'link'=>$video,
                     'description'=>$data3["description"],
                     'created_at'=>$data3["created_at"],
             ];
             }
+            }
+            }
+        
         }
         return $row;
             
@@ -332,12 +372,20 @@ function GetVideoById($data){
                 }else{
                     $status = "not_saved";
                 }
+                $link=$data2["link"];
+                parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
+                if (!empty($my_array_of_vars["v"])) {
+                    $video = $my_array_of_vars["v"];
+                }else {
+                    $video = "";
+                }
                 $row[] = [
                     'status'=>true,
                     'data'=>[
                         'id'=>$data2["id"],
                         'title'=>$data2["title"],
-                        'link'=>$data2["link"],
+                        'video_link'=>$data2["link"],
+                        'link'=>$video,
                         'description'=>$data2["description"],
                         'status'=>$status,
                         'created_at'=>$data2["created_at"],
