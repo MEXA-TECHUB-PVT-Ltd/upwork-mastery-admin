@@ -7,14 +7,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upwork Mastery</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css">
+<?php include("include/links.php");?>
     <style>
         .bd-placeholder-img {
           font-size: 1.125rem;
@@ -37,10 +30,10 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 <body>
 <?php include("include/header.php");?>
   <div class="container-fluid ">
-    <div class="row mt-120">
+    <div class="row">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
-        <div class="position-sticky pt-3">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="#"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
+        <div class="position-sticky">
+          <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="index.php"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
           <ul class="nav flex-column">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span>Menu</span>
@@ -82,6 +75,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
                 License Agreement
               </a>
             </li>
+            
           </ul>
         </div>
       </nav>
@@ -148,7 +142,7 @@ $video = pg_num_rows($run3);
           <div class="col-md-7 col-sm-12">
             <div class="row">
               <?php
-            $sql = "SELECT * FROM videos";
+            $sql = "SELECT * FROM videos ORDER BY created_at DESC";
             $run = pg_query($conn,$sql);
             while($result = pg_fetch_assoc($run)){
                 $id = $result["id"];
@@ -158,9 +152,10 @@ $video = pg_num_rows($run3);
             parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
 ?>
               <div class="col-md-4 mt-3 col-sm-12">
-                <div class="card" style="width: 14rem;">
-                  <a href="videos.php"><img src="https://img.youtube.com/vi/<?php echo $my_array_of_vars['v']?>/0.jpg" class="card-img-top" alt="thumbnail"></a>
-                  <div class="card-body" style="height:200px">
+                <div class="card" style="width: 16rem;">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/<?php echo $my_array_of_vars['v']?>" id="video" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                  <!-- <a href="videos.php"><img src="https://img.youtube.com/vi/<?php echo $my_array_of_vars['v']?>/0.jpg" class="card-img-top" alt="thumbnail"></a> -->
+                  <div class="card-body" style="height:120px">
                   <a style="text-decoration:none;" href="videos.php"><h6 style="color:#14a800" class="card-title"><?php echo $title?></h6></a>
                     <?php
 
@@ -261,7 +256,7 @@ while($users = pg_fetch_assoc($run)){
                     <option value="year">By Years</option>
                       <option selected value="month">By months</option>
                       <option value="weeks">By Weeks</option>
-                      <option value="days">By Days</option>
+                      <!-- <option value="days">By Days</option>  -->
                     </select>
                 </div>
                   </div>
@@ -274,10 +269,7 @@ while($users = pg_fetch_assoc($run)){
       </main>  
     </div>
     </div>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <?php include("include/scripts.php");?>
 <script>
 		function dayFilter(data) {
 				$.ajax({
@@ -319,8 +311,7 @@ while($users = pg_fetch_assoc($run)){
       }
 	</script>
 <script>
-  $(document).ready(function() {
-    var ctx2 = document.getElementById('myChart')
+   var ctx2 = document.getElementById('myChart')
     // eslint-disable-next-line no-unused-vars
     var myChart2 = new Chart(ctx2, {
       type: 'line',
@@ -374,7 +365,6 @@ while($users = pg_fetch_assoc($run)){
         }
       }
     })
-  }
 </script>
 </body>
 </html>

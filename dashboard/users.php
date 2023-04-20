@@ -35,7 +35,6 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 120px;
 }
 .confirm-button-class {
   background-color: #14a800 !important;
@@ -71,6 +70,39 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 .swal2-actions button:hover {
   border: none !important;
 }
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  display: none;
+}
+#loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: none;
+}
+
+.spinner {
+  border: 3px solid #14a800;
+  border-top: 3px solid #f3f3f3;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
       </style>
     <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
@@ -79,7 +111,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   <div class="container-fluid ">
     <div class="row mt-120">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
-        <div class="position-sticky pt-3">
+        <div class="position-sticky">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="index.php"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
           <ul class="nav flex-column">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -127,6 +159,10 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
         </div>
       </nav>
       <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
+      <div id="loader">
+          <div class="spinner"></div>
+        </div>
+        <div id="overlay"></div>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
           <h1 style="color: #14a800;" class="h2">Users</h1>
         </div>
@@ -141,7 +177,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
               
 include_once("../include/db.php");
 $conn=connect();
-$sql = "SELECT * FROM users ORDER BY created_at ASC";
+$sql = "SELECT * FROM users ORDER BY created_at DESC";
 $run = pg_query($conn,$sql);
 $count = 1;
 while($result = pg_fetch_assoc($run)){
@@ -168,7 +204,7 @@ $firstLetter = substr($Username, 0, 1); // "H"
                 </a>
                 <ul class="dropdown-menu">
                       <?php 
-                      if ($status == 'active') {
+                      if ($status == 'unblock') {
                         ?>
                         <li><a class="dropdown-item" onclick="confirmation(<?php echo $id?>)" href="#"><i class="text-danger fa-solid fa-ban"></i> Block</a></li>
                       <?php
@@ -182,10 +218,10 @@ $firstLetter = substr($Username, 0, 1); // "H"
                   </div>
                 </div>
                 
-                      <div class="user-initial text-uppercase text-center"><?php echo $firstLetter?></div>
+                    <a style="text-decoration:none" onclick="view(<?php echo $id?>)" data-bs-toggle="modal" data-bs-target="#Modaledit" href=""><div style="margin-left:120px;" class="user-initial text-uppercase text-center"><?php echo $firstLetter?></div></a>
                     <div class="card-body">
-                      <h5 style="color:#14a800" class="card-title text-center"><?php echo $Username?></h5>
-                      <h6 class="card-text text-center"><?php echo $email?></h6>
+                    <a style="text-decoration:none" data-bs-toggle="modal" onclick="view(<?php echo $id?>)" data-bs-target="#Modaledit" href=""><h5 style="color:#14a800" class="card-title text-center"><?php echo $Username?></h5></a>
+                    <a style="text-decoration:none;color:black" data-bs-toggle="modal" onclick="view(<?php echo $id?>)" data-bs-target="#Modaledit" href=""><h6 class="card-text text-center"><?php echo $email?></h6></a>
                     </div>
                   </div>
               </div>
@@ -195,6 +231,49 @@ $firstLetter = substr($Username, 0, 1); // "H"
             </div>
           </div>
       </div>
+<!-- Modal -->
+<div class="modal fade" id="Modaledit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h1 class="modal-title fs-5" id="exampleModalLabel">User Detail</h1>
+        <button style="box-shadow: none;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mb-5">
+        <div class="row ">
+          <div class="col-md-12 justify-content-center d-flex">
+            <div class="user-initial text-uppercase mt-3 mb-3"><?php echo $firstLetter?></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+              <h5 style="color:#14a800" class="card-title mx-2 mt-4">Username</h5>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <h6 class="card-text mt-4" id="username4"></h6></h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+              <h5 style="color:#14a800" class="card-title mx-2 mt-4">Email</h5>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <h6 class="card-text mt-4" id="email4"></h6></h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-sm-6" >
+              <h5 style="color:#14a800" class="card-title mx-2 mt-4">Status</h5>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <h6 class="card-text mt-4" id="status4"></h6>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
     </main>
     </div>
     </div>
@@ -203,13 +282,13 @@ $firstLetter = substr($Username, 0, 1); // "H"
     function Active(id){
         console.log(id);
         Swal.fire({
-  title: 'Are you sure?',
-  text: "want to Active user!",
+  title: 'Confirmation',
+  text: "want to unblock user!",
   icon: 'warning',
   showCancelButton: true,
   confirmButtonColor: '#3085d6',
   cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, Active it!'
+  confirmButtonText: 'Unblock'
 }).then((result) => {
   if (result.isConfirmed) {
     var myHeaders = new Headers();
@@ -223,6 +302,8 @@ $firstLetter = substr($Username, 0, 1); // "H"
             body: raw,
             redirect: 'follow'
           };
+          $('#overlay').show();
+          $('#loader').show();
           fetch("backend/user/active-user.php", requestOptions)
           .then((response) => response.json())
           .then((data) => {
@@ -243,7 +324,7 @@ $firstLetter = substr($Username, 0, 1); // "H"
     function confirmation(id){
         console.log(id);
         Swal.fire({
-  title: 'Conformation',
+  title: 'Confirmation',
   text: "Do You Want To Block User",
   icon: 'warning',
   showCancelButton: true,
@@ -263,6 +344,8 @@ $firstLetter = substr($Username, 0, 1); // "H"
             body: raw,
             redirect: 'follow'
           };
+          $('#loader').show();
+            $('#overlay').show();
           fetch("backend/user/block-user.php", requestOptions)
           .then((response) => response.json())
           .then((data) => {
@@ -289,7 +372,7 @@ $.toast({
             text: '<?php echo $_SESSION["message"]?>',
             position: 'top-right',
             loaderBg:'#878787',
-            hideAfter: 3500
+            hideAfter: 5000
         });
 	</script>
 	<?php
@@ -306,14 +389,43 @@ $.toast({
             heading: 'Opps! Failed',
             text: '<?php echo $_SESSION["message_error"]?>',
             position: 'top-right',
-            loaderBg:'#fec107',
+            loaderBg:'#0e7600',
             icon: 'error',
-            hideAfter: 3500
+            hideAfter: 5000
         });
 	</script>
 	<?php
 	unset($_SESSION["message_error"]);
 }
 ?>
+    <script>
+            function view(id) {
+        $.ajax({
+            url: "backend/user/get-user-by-id.php",
+            method: "POST",
+            data: {id: id},
+            success: function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+                $('#username4').html(response.username);
+                $('#email4').html(response.email);
+                $('#status4').html(response.status);
+ // And finally you can this function to show the pop-up/dialog
+ $("#exampleModal2").modal();
+            }
+        });
+    }
+  </script>
+  <script>
+  $(document).ajaxStart(function() {
+  $('#overlay').show();
+  $('#loader').show();
+});
+
+$(document).ajaxStop(function() {
+  $('#loader').hide();
+  $('#overlay').hide();
+});
+</script>
 </body>
 </html>

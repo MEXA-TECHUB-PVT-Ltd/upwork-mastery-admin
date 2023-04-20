@@ -62,7 +62,7 @@ $.toast({
             text: '<?php echo $_SESSION["message"]?>',
             position: 'top-right',
             loaderBg:'#878787',
-            hideAfter: 3500
+            hideAfter: 5000
         });
 	</script>
 	<?php
@@ -79,9 +79,9 @@ $.toast({
             heading: 'Opps! Failed',
             text: '<?php echo $_SESSION["message_error"]?>',
             position: 'top-right',
-            loaderBg:'#fec107',
+            loaderBg:'#0e7600',
             icon: 'error',
-            hideAfter: 3500
+            hideAfter: 5000
         });
 	</script>
 	<?php

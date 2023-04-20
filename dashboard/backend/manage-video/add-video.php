@@ -11,18 +11,20 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     $data->link=$_POST["link"];
     $data->description=$_POST["description"];
     $data->title=$_POST["title"];
-    if (filter_var($data->link, FILTER_VALIDATE_URL)) {
+$youtubeLinkPattern = "/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=)?([a-zA-Z0-9_-]{11})/";
+// Check if the link matches the pattern
+if (preg_match($youtubeLinkPattern, $data->link, $matches)) {
         if (createVideo($data)) {
             $_SESSION["message"] = "Video Created Successfully";
             header("location:../../videos.php");
         }else{
-            $_SESSION["message_errors"] = "failed to create video";
+            $_SESSION["message_error"] = "failed to create video";
             header("location:../../videos.php");
         }
-        }else {
-            $_SESSION["message_error"] = "Url Is not valid";
+    }else {
+            $_SESSION["message_error"] = "link is not valid";
             header("location:../../videos.php");
-        }
+    }
     }else {
         $_SESSION["message_error"] = "All Data Needed";
             header("location:../../videos.php");

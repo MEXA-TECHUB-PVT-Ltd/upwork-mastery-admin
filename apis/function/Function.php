@@ -3,7 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 require_once "../../libraries/vendor/autoload.php";
 // Auth Api Function
 function CreateUser($data){
-    $query = "INSERT INTO users (username,email,password,status) VALUES ('$data->username','$data->email','$data->password','active') RETURNING id";
+    $query = "INSERT INTO users (username,email,password,status) VALUES ('$data->username','$data->email','$data->password','unblock') RETURNING id";
     $insert = pg_query($data->conn, $query);
         if($insert){
             $row = pg_fetch_row($insert);
@@ -156,7 +156,7 @@ function GetPromoCode($data){
     return array();
     }
 function GetTermsAndCondition($data){
-$query = "SELECT * FROM terms_conditions";
+$query = "SELECT * FROM terms_conditions WHERE status='active'";
 $result = pg_query($data->conn, $query);
 if ($result) {
     $data = pg_fetch_assoc($result);
@@ -168,7 +168,7 @@ if ($result) {
     return $row;;
 }
 function GetPrivacyPolicy($data){
-$query = "SELECT * FROM privacy_policy";
+$query = "SELECT * FROM privacy_policy WHERE status='active'";
 $result = pg_query($data->conn, $query);
 if ($result) {
     $row = array();
@@ -483,7 +483,7 @@ function updateRecommendation($data){
             }
         }
     function GetLicence($data){
-        $query = "SELECT * FROM licence";
+        $query = "SELECT * FROM licence WHERE status='active'";
         $result = pg_query($data->conn, $query);
         if ($result) {
             $data = pg_fetch_assoc($result);

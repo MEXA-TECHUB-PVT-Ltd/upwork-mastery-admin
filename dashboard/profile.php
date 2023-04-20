@@ -30,7 +30,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   <div class="container-fluid ">
     <div class="row mt-120">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
-        <div class="position-sticky pt-3">
+        <div class="position-sticky">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="#"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
           <ul class="nav flex-column">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -215,7 +215,7 @@ $.toast({
             text: '<?php echo $_SESSION["message"]?>',
             position: 'top-right',
             loaderBg:'#878787',
-            hideAfter: 3500
+            hideAfter: 5000
         });
 	</script>
 	<?php
@@ -232,9 +232,9 @@ $.toast({
             heading: 'Opps! Failed',
             text: '<?php echo $_SESSION["message_error"]?>',
             position: 'top-right',
-            loaderBg:'#fec107',
+            loaderBg:'#0e7600',
             icon: 'error',
-            hideAfter: 3500
+            hideAfter: 5000
         });
 	</script>
 	<?php
