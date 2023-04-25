@@ -19,6 +19,9 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     $data->id=$_POST["id"];
     $data->title=$_POST["title"];
     $data->description=$_POST["description"];
+    $youtubeLinkPattern = "/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=)?([a-zA-Z0-9_-]{11})/";
+// Check if the link matches the pattern
+if (preg_match($youtubeLinkPattern, $data->link, $matches)) {
         if (UpdateVideo($data)) {
             $_SESSION["message"] = "Video updated Successfully";
             header("location:../../videos.php");
@@ -26,6 +29,10 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             $_SESSION["message"] = "failed to update video";
             header("location:../../videos.php");
         }
+    }else{
+        $_SESSION["message_error"] = "All data needed";
+        header("location:../../videos.php");
+    }
     }else{
         $_SESSION["message_error"] = "All data needed";
         header("location:../../videos.php");

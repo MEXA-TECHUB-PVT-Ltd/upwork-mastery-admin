@@ -355,7 +355,7 @@ function blockUser($data){
 }
 function activeUser($data){
     $query = "UPDATE users SET
-    status = 'active'
+    status = 'unblock'
     WHERE id = '$data->id'";
     $upload = pg_query($data->conn, $query);
     if($upload){

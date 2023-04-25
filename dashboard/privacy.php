@@ -26,7 +26,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   height: 100%;
   width: 100%;
   border-radius:7px;
-  border: 2px solid #969AA8;
+  border: 1px solid #969AA8;
   vertical-align:middle;
   justify-content:center;
   align-items: center;
@@ -78,7 +78,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   <div class="container-fluid ">
     <div class="row mt-120">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
-        <div class="position-sticky pt-3">
+        <div class="position-sticky">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="index.php"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
           <ul class="nav flex-column">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -171,7 +171,7 @@ if ($status == 'active') {
         </div>
         <div class="col-md-4 d-flex justify-content-end">
             <div class="tag">
-                <span style="background:#affda5; color: #14a800; border-radius: 15px ; padding:5px;">active</span>
+              <h5><span style="background:#14a800; border-radius:10px" class="badge">active</span></h5>
             </div>
             <div class="icon-b">
             <a class=" mx-2 mt-2 mb-2 mx-3" href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -197,12 +197,12 @@ if ($status == 'active') {
 <div class="row mt-4">
         <div class="col-md-8">
             <div class="header">
-                <h4>Last Updated <span style="font-size:15px;">(<?php echo $end_time4?>)</span></h4>
+              <h4>Last Updated <span style="font-size:15px;">(<?php echo $end_time4?>)</span></h4>
             </div>
         </div>
         <div class="col-md-4 d-flex justify-content-end">
             <div class="tag">
-                <span style="background:#bdbec3; color: #525357; border-radius: 15px ; padding:5px;">inactive</span>
+              <h5><span style="border-radius:10px" class="badge bg-secondary">inactive</span></h5>
             </div>
             <div class="icon-b">
             <a class=" mx-2 mt-2 mb-2 mx-3" href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -299,14 +299,12 @@ if ($status == 'active') {
     </div>
   </div>
 </div>
-<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/app.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+<?php include("include/scripts.php")?>
 <script src="assets/js/jquery-toast-plugin/dist/jquery.toast.min.js"></script> 
 <script src="https://cdn.tiny.cloud/1/yo9e1ts5xtf3knyjm2uck5okrzzgtapaef9txyy5qk62bfyp/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+
+
     <script>
     function loadEdit3(){
         tinymce.init({
@@ -391,7 +389,7 @@ $.toast({
             text: '<?php echo $_SESSION["message"]?>',
             position: 'top-right',
             loaderBg:'#878787',
-            hideAfter: 3500
+            hideAfter: 5000
         });
 	</script>
 	<?php
@@ -408,9 +406,9 @@ $.toast({
             heading: 'Opps! Failed',
             text: '<?php echo $_SESSION["message_error"]?>',
             position: 'top-right',
-            loaderBg:'#fec107',
+            loaderBg:'#0e7600',
             icon: 'error',
-            hideAfter: 3500
+            hideAfter: 5000
         });
 	</script>
 	<?php

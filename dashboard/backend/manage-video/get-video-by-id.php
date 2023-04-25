@@ -16,7 +16,7 @@ $row = pg_fetch_assoc ($result);
    $link = $row["link"];
    parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
    
-   $vid =$my_array_of_vars["v"];
+   $vid = "https://www.youtube.com/embed/".$my_array_of_vars["v"];
    $url = '<img src=https://img.youtube.com/vi/'.$vid.'/0.jpg" alt="thumbnail">';
    $description = $row["description"];
    $title = $row["title"];
