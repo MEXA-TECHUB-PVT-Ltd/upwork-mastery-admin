@@ -103,6 +103,17 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   100% { transform: rotate(360deg); }
 }
 
+.form-switch input:checked {
+  background-color: #14a800;
+  border: #14a800;
+}
+
+.form-switch input:checked + label::before {
+  transform: translateX(20px); /* Move the toggle button to the right when checked */
+}
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
       </style>
     <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
@@ -204,13 +215,21 @@ $firstLetter = substr($Username, 0, 1); // "H"
                 </a>
                 <ul class="dropdown-menu">
                       <?php 
-                      if ($status == 'unblock') {
+                      if ($status == 'unblock' || $status == '') {
                         ?>
-                        <li><a class="dropdown-item" onclick="confirmation(<?php echo $id?>)" href="#"><i class="text-danger fa-solid fa-ban"></i> Block</a></li>
+                        <li><div class="form-check form-switch mx-2">
+                            <input style="box-shadow:none" onchange="confirmation(<?php echo $id?>)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Block</label>
+                          </div>
+                        </li>
                       <?php
                   }else{
                       ?>
-                        <li><a class="dropdown-item" onclick="Active(<?php echo $id?>)" href="#"><i class="text-primary fa-solid fa-check"></i> Unblock</a></li>
+                        <li><div class="form-check form-switch mx-2">
+                            <input style="box-shadow:none" onchange="Active(<?php echo $id?>)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Unblock</label>
+                          </div>
+                        </li>
                       <?php
                   }
                   ?>
@@ -230,6 +249,7 @@ $firstLetter = substr($Username, 0, 1); // "H"
 ?>
             </div>
           </div>
+          
       </div>
 <!-- Modal -->
 <div class="modal fade" id="Modaledit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -281,16 +301,6 @@ $firstLetter = substr($Username, 0, 1); // "H"
 <script>
     function Active(id){
         console.log(id);
-        Swal.fire({
-  title: 'Confirmation',
-  text: "want to unblock user!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Unblock'
-}).then((result) => {
-  if (result.isConfirmed) {
     var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({
@@ -316,23 +326,11 @@ $firstLetter = substr($Username, 0, 1); // "H"
           .catch((error) => {
             console.error('Error:', error);
           });
-  }
-})
 }
 </script>
 <script>
     function confirmation(id){
         console.log(id);
-        Swal.fire({
-  title: 'Confirmation',
-  text: "Do You Want To Block User",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Block'
-}).then((result) => {
-  if (result.isConfirmed) {
     var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({
@@ -358,46 +356,10 @@ $firstLetter = substr($Username, 0, 1); // "H"
           .catch((error) => {
             console.error('Error:', error);
           });
-  }
-})
+
 }
 </script>
-<?php 
-if (isset($_SESSION["message"])) {
-	# code...
-	?>
-	<script>
-$.toast({
-            heading: 'Looks Good!',
-            text: '<?php echo $_SESSION["message"]?>',
-            position: 'top-right',
-            loaderBg:'#878787',
-            hideAfter: 5000
-        });
-	</script>
-	<?php
-	unset($_SESSION["message"]);
-}
 
-?>
-		<?php 
-if (isset($_SESSION["message_error"])) {
-	# code...
-	?>
-	<script>
-$.toast({
-            heading: 'Opps! Failed',
-            text: '<?php echo $_SESSION["message_error"]?>',
-            position: 'top-right',
-            loaderBg:'#0e7600',
-            icon: 'error',
-            hideAfter: 5000
-        });
-	</script>
-	<?php
-	unset($_SESSION["message_error"]);
-}
-?>
     <script>
             function view(id) {
         $.ajax({

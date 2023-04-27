@@ -18,14 +18,14 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     if (!empty($data2->id)){
         $data->id=$data2->id;
         if (activeUser($data)) {
-            $_SESSION["message"] = "User has been active Successfully";
+            $_SESSION["message"] = "User has been Unblocked Successfully";
             http_response_code(200);
             echo json_encode(array(
             "status"=>true,
-            "message"=>"User has been active Successfully"
+            "message"=>"User has been Unblocked Successfully"
         ));
         }else{
-            $_SESSION["message_error"] = "failed to active user ";
+            $_SESSION["message_error"] = "failed to Unblocked user ";
             http_response_code(200);
             echo json_encode(array(
             "status"=>false,

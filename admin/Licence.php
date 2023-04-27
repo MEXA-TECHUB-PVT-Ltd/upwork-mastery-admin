@@ -66,24 +66,60 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
 }
 .swal2-actions button:hover {
   border: none !important;
-  transition: 0.5s;
+}
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  display: none;
+}
+#loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: none;
+}
+
+.spinner {
+  border: 3px solid #14a800;
+  border-top: 3px solid #f3f3f3;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
       </style>
+    <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
 <body>
 <?php include("include/header.php");?>
   <div class="container-fluid ">
     <div class="row mt-120">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
         <div class="position-sticky">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="#"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
-          <ul class="nav flex-column">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="index.php"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
+    <ul class="nav flex-column">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span>Menu</span>
                 <a class="link-secondary" href="#" aria-label="Add a new report"></a>
               </h6>
             <li class="nav-item">
-              <a class="nav-link" href="index.php">
+              <a class="nav-link" aria-current="page" href="index.php">
                 <span data-feather="home"></span>
                 Dashboard
               </a>
@@ -107,13 +143,13 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
+              <a class="nav-link" href="terms-and-conditions.php">
                 <span data-feather="folder"></span>
                 Terms & Conditions
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Licence.php">
+              <a class="nav-link active" href="#">
                 <span data-feather="file"></span>
                 License Agreement
               </a>
@@ -122,10 +158,14 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
         </div>
       </nav>
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
+      <div id="loader">
+          <div class="spinner"></div>
+        </div>
+        <div id="overlay"></div>
         <div class="row">
             <div class="col-md-6">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-                    <h1 style="color: #14a800;" class="h2">Terms And Conditions</h1>
+                    <h1 style="color: #14a800;" class="h2">License Agreement</h1>
                 </div>
             </div>
             <div class="col-md-6">
@@ -144,15 +184,14 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
         <?php
 include_once("../include/db.php");
 $conn=connect();
-$sql = "SELECT * FROM terms_conditions ORDER BY status ASC";
+$sql = "SELECT * FROM licence ORDER BY status ASC";
 $run = pg_query($conn,$sql);
 while($result = pg_fetch_assoc($run)){
-
-if (!empty($result["terms_and_condition"])) {
+    if (!empty($result["agreement"])) {
     $id = $result["id"];
-    $terms_and_condition = $result["terms_and_condition"];
+    $terms_and_condition = $result["agreement"];
     $created_at = $result["created_at"];
-    $status =$result["status"];
+    $status = $result["status"];
     $end_time4 = date("d-M Y", strtotime($created_at));
 }else {
     $terms_and_condition = '';
@@ -162,12 +201,12 @@ if ($status == 'active') {
       <div class="row mt-4">
         <div class="col-md-8">
             <div class="header">
-                <h4>Active Terms And Conditions</h4>
+                <h4>Active License Agreement</h4>
             </div>
         </div>
         <div class="col-md-4 d-flex justify-content-end">
             <div class="tag">
-              <h5><span style="background:#14a800; border-radius:10px" class="badge">active</span></h5>
+            <h5><span style="background:#14a800; border-radius:10px" class="badge">active</span></h5>
             </div>
             <div class="icon-b">
             <a class=" mx-2 mt-2 mb-2 mx-3" href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -229,10 +268,10 @@ if ($status == 'active') {
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Terms And Conditions</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit License Agreement</h1>
         <button style="box-shadow: none;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="backend/user/update-terms_and_condition.php" method="post">
+      <form action="backend/user/update-license.php" method="post">
       <div class="modal-body">
         <div class="input-group mb-3">
             <select name="status" style="box-shadow: none;" class="form-select" aria-label="Default select example">
@@ -266,10 +305,10 @@ if ($status == 'active') {
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Terms And Conditions</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add License Agreement</h1>
         <button style="box-shadow: none;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="backend/user/terms_and_condition.php" method="post">
+      <form action="backend/user/license.php" method="post">
       <div class="modal-body">
       <div class="input-group mb-3">
             <select name="status" style="box-shadow: none;" class="form-select" aria-label="Default select example">
@@ -288,7 +327,7 @@ if ($status == 'active') {
   font-weight: 500;
   outline: none;
   font-size: 15px;
-  padding:7px 30px;
+  padding:7px 150px;
   transition: 0.5s;" type="submit" class="btn btn-primary ">Add</button>
       </div>
       </form>
@@ -333,11 +372,11 @@ if ($status == 'active') {
             body: raw,
             redirect: 'follow'
           };
-          fetch("backend/user/delete-terms.php", requestOptions)
+          fetch("backend/user/delete-license.php", requestOptions)
           .then((response) => response.json())
           .then((data) => {
             if(data.status){
-            window.location = 'terms-and-conditions.php';
+            window.location = 'Licence.php';
             }else{
                 console.log(data.message);
             }
@@ -352,13 +391,13 @@ if ($status == 'active') {
 <script>
     function loadEdit(id) {
         $.ajax({
-            url: "backend/user/get-terms-by-id.php",
+            url: "backend/user/get-license.php",
             method: "POST",
             data: {id: id},
             success: function (response) {
                 response = JSON.parse(response);
                 console.log(response);
-                $('#termscondition').val(response.terms_and_condition);
+                $('#termscondition').val(response.agreement);
                 $('#id').val(response.id);
                 tinymce.init({
       selector: 'textarea',
@@ -408,5 +447,16 @@ $.toast({
 	unset($_SESSION["message_error"]);
 }
 ?>
+  <script>
+  $(document).ajaxStart(function() {
+  $('#overlay').show();
+  $('#loader').show();
+});
+
+$(document).ajaxStop(function() {
+  $('#loader').hide();
+  $('#overlay').hide();
+});
+</script>
 </body>
 </html>

@@ -70,6 +70,41 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   border: none !important;
   box-shadow: none !important;
 }
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  display: none;
+}
+#loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: none;
+}
+
+.spinner {
+  border: 3px solid #14a800;
+  border-top: 3px solid #f3f3f3;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
       </style>
     <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
@@ -79,7 +114,7 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
     <div class="row mt-120">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse shadow">
         <div class="position-sticky">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="index.php"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
+          <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="index.php"><img style="height: 50px;" src="assets/image/logo.png" alt="logo"></a>
           <ul class="nav flex-column">
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span>Menu</span>
@@ -126,6 +161,10 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
         </div>
       </nav>
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
+      <div id="loader">
+          <div class="spinner"></div>
+        </div>
+        <div id="overlay"></div>
         <div class="row">
             <div class="col-md-6">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
@@ -320,7 +359,7 @@ if ($status == 'active') {
     function confirmation(id){
         console.log(id);
         Swal.fire({
-  title: 'Conformation',
+  title: 'Confirmation',
   text: "Do you want to delete!",
   icon: 'warning',
   showCancelButton: true,
@@ -379,23 +418,16 @@ if ($status == 'active') {
         });
     }
   </script>
-   <?php 
+  <?php 
 if (isset($_SESSION["message"])) {
-	# code...
-	?>
-	<script>
-$.toast({
-            heading: 'Looks Good!',
-            text: '<?php echo $_SESSION["message"]?>',
-            position: 'top-right',
-            loaderBg:'#878787',
-            hideAfter: 5000
-        });
-	</script>
-	<?php
-	unset($_SESSION["message"]);
+  # code...
+  // show this html
+  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Error:</strong> ' . $_SESSION["message"] . '
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+  unset($_SESSION["message"]);
 }
-
 ?>
 		<?php 
 if (isset($_SESSION["message_error"])) {
@@ -415,5 +447,16 @@ $.toast({
 	unset($_SESSION["message_error"]);
 }
 ?>
+  <script>
+  $(document).ajaxStart(function() {
+  $('#overlay').show();
+  $('#loader').show();
+});
+
+$(document).ajaxStop(function() {
+  $('#loader').hide();
+  $('#overlay').hide();
+});
+</script>
 </body>
 </html>
