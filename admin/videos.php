@@ -123,7 +123,9 @@ if (!isset($_SESSION["admin_email"]) && !isset($_SESSION["admin_id"])) {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
       </style>
     <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
@@ -207,12 +209,12 @@ while($result = pg_fetch_assoc($run)){
 parse_str( parse_url( $link, PHP_URL_QUERY ), $my_array_of_vars );
   ?>
               <div class="col-md-3 mb-3">
-                <div id class="card" style="width: 320px">
+                <div class="card" style="width: 320px">
                 <div class="text-end">
-                    <a style="color:black" class="mx-2" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a style="color:black;" class="mx-2" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-ellipsis-vertical"></i>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" onclick="loadEdit(<?php echo $id?>)" data-bs-toggle="modal" data-bs-target="#Modaledit" href="#"><i class="text-primary fa-solid fa-pen-to-square"></i> Update</a></li>
                         <li><a class="dropdown-item" onclick="confirmation(<?php echo $id?>)" href="#"><i class="text-danger fa-solid fa-trash"></i> Delete</a></li>
                     </ul>
@@ -357,42 +359,6 @@ function video() {
   thumbnailContainer.innerHTML = '';
 }
   </script>
-  <?php 
-if (isset($_SESSION["message"])) {
-	# code...
-	?>
-	<script>
-$.toast({
-            heading: 'Looks Good!',
-            text: '<?php echo $_SESSION["message"]?>',
-            position: 'top-right',
-            loaderBg:'#0e7600 ',
-            hideAfter: 5000
-        });
-	</script>
-	<?php
-	unset($_SESSION["message"]);
-}
-
-?>
-		<?php 
-if (isset($_SESSION["message_error"])) {
-	# code...
-	?>
-	<script>
-$.toast({
-            heading: 'Opps! Failed',
-            text: '<?php echo $_SESSION["message_error"]?>',
-            position: 'top-right',
-            loaderBg:'#0e7600',
-            icon: 'error',
-            hideAfter: 5000
-        });
-	</script>
-	<?php
-	unset($_SESSION["message_error"]);
-}
-?>
     <script>
             function view(id) {
         $.ajax({
